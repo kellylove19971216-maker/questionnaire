@@ -1,0 +1,139 @@
+<div class="questionnaire-container">
+  <!-- 問卷標題 -->
+  <h1 class="questionnaire-title">{{quest.title}}</h1>
+
+  <!-- 問卷開放時間 -->
+  <div class="questionnaire-period">問卷開放時間：{{quest.sTime}}~{{quest.eTime}}</div>
+
+  <!-- 問卷說明 -->
+  <div class="questionnaire-description">
+    {{quest.explain}}
+  </div>
+
+  <!-- 基本資料區塊 -->
+  <div class="basic-info-section">
+    <h2>請填寫您的基本資料:</h2>
+    <div class="form-grid">
+      <div class="form-group required">
+        <label>姓名：</label>
+        <input [(ngModel)]="nameData" type="text" class="form-input">
+      </div>
+      <div class="form-group required">
+        <label>電話：</label>
+        <input [(ngModel)]="phoneData" type="tel" class="form-input">
+      </div>
+      <div class="form-group required">
+        <label>Email：</label>
+        <input [(ngModel)]="emailData" type="email" class="form-input">
+      </div>
+      <div class="form-group">
+        <label>年齡：</label>
+        <input [(ngModel)]="ageData" type="number" class="form-select">
+      </div>
+      <div class="form-group">
+        <label>性別：</label>
+        <div class="sex-group">
+          <select [(ngModel)]="sexData" class="form-select">
+            <option value="">請選擇性別</option>
+            <option value="male">男</option>
+            <option value="female">女</option>
+            <option value="other">不便告知</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>居住縣市：</label>
+        <select [(ngModel)]="selectData" class="form-select">
+          <option value="">請選擇居住縣市</option>
+          <!-- 直轄市 -->
+          <option value="臺北市">臺北市</option>
+          <option value="新北市">新北市</option>
+          <option value="桃園市">桃園市</option>
+          <option value="臺中市">臺中市</option>
+          <option value="臺南市">臺南市</option>
+          <option value="高雄市">高雄市</option>
+          <!-- 市 -->
+          <option value="基隆市">基隆市</option>
+          <option value="新竹市">新竹市</option>
+          <option value="嘉義市">嘉義市</option>
+          <!-- 縣 -->
+          <option value="新竹縣">新竹縣</option>
+          <option value="苗栗縣">苗栗縣</option>
+          <option value="彰化縣">彰化縣</option>
+          <option value="南投縣">南投縣</option>
+          <option value="雲林縣">雲林縣</option>
+          <option value="嘉義縣">嘉義縣</option>
+          <option value="屏東縣">屏東縣</option>
+          <option value="宜蘭縣">宜蘭縣</option>
+          <option value="花蓮縣">花蓮縣</option>
+          <option value="臺東縣">臺東縣</option>
+          <option value="澎湖縣">澎湖縣</option>
+          <option value="金門縣">金門縣</option>
+          <option value="連江縣">連江縣</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- 問卷作答區塊 -->
+  <div class="questionnaire-section">
+    <h2>問卷作答:</h2>
+    <!-- 單選題區塊 -->
+    <div class="question-block">
+      <h3>一、單選題 (Single Choice)</h3>
+      <div class="question">
+        @for(questData of answers;track $index){
+        <div class="radio-group">
+          @if(questData.type == 'Q'){
+          <p>{{questData.questId}}.{{questData.questName}}</p>
+          @for(option of questData.options;track $index){
+          <!-- ngmodel會抓value的值 -->
+          <label><input [(ngModel)]="questData.radioAnswer" type="radio" value="{{option.code}}"
+              name="{{questData.questId}}"> {{option.optionName}}</label>
+          }
+          }
+        </div>
+        }
+      </div>
+      <!-- 多選題區塊 -->
+      <div class="question-block">
+        <h3>二、多選題 (Multiple Choice)</h3>
+        <div class="question">
+          @for(questData of answers; track $index){
+          @if(questData.type == 'M'){
+          <div class="radio-group">
+            <p>{{questData.questId}}. {{questData.questName}}</p>
+            @for(option of questData.options; track $index){
+            <label>
+              <input [(ngModel)]="option.boxBollen" type="checkbox" value="{{option.code}}"
+                name="{{questData.questId}}">
+              {{option.optionName}}
+            </label>
+            }
+          </div>
+          }
+          }
+        </div>
+      </div>
+      <!-- 文字題區塊 -->
+      <div class="question-block">
+        <h3>三、開放式題目 (Open-ended)</h3>
+        <div class="question">
+          @for(questData of answers; track $index){
+          @if(questData.type == 'T'){
+          <p>{{questData.questId}}. {{questData.questName}}</p>
+          <textarea [(ngModel)]="questData.textAnswer" class="form-textarea" placeholder="此處可填寫"
+            name="{{questData.questId}}"></textarea>
+          }
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 按鈕區域 -->
+  <div class="button-group">
+    <button routerLink="/user-list" routerLinkActive="active" class="btn-cancel">取消</button>
+    <button (click)="nextStep()" routerLink="/user-confirm" routerLinkActive="active" class="btn-submit">下一步</button>
+  </div>
+</div>

@@ -1,0 +1,66 @@
+.background1{
+  margin: 1rem 0;
+}
+/*搜尋欄位*/
+.search{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 35px;
+  border:2px solid #8b6f47;
+  padding: 25px 8%;
+
+  button{
+    width: 115px;
+    height: 25px;
+  }
+  input{
+    width: auto;
+    height: 25px;
+  }
+  }
+/*表格欄位*/
+.iconList{
+  cursor: pointer;
+}
+table {
+  width: 100%;
+  padding-top:30px ;
+}
+.header-cell{
+  display: flex;
+  align-items: center;   /* 垂直置中 */
+  justify-content: flex-start; /* 或 space-between */
+  gap: 8px;              /* 文字和 icon 的間距 */
+}
+.mat-mdc-table th.mat-mdc-header-cell,
+.mat-mdc-table td.mat-mdc-cell {
+  border-bottom: 2px solid #8b6f47; /* 這裡改成你要的顏色 */
+}
+.mat-mdc-table .mat-mdc-header-row {
+  background-color: #cfab87; /* 淺灰色，可改成你要的 */
+}
+.state-not-started {
+  color: gray;
+}
+
+.state-in-progress {
+  color: green;
+  font-weight: bold; /* 如果想更醒目 */
+}
+
+.state-ended {
+  color: red;
+}
+.name-in-progress {
+  color:  #513c1f;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: underline;
+}
+.statistics-in-progress{
+  color:  #513c1f;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: underline;
+}
