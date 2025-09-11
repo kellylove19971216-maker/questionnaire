@@ -1,19 +1,21 @@
 <div class="background1">
-  <div class="tiltle1">
     <h1>歡迎管理者回來</h1>
     <p>請輸入帳號密碼進行登入</p>
-  </div>
+</div>
+<hr>
+<div class="background2">
     <div class="account">
-    <p>帳號</p>
-    <input [(ngModel)]="account" type="text" name="account">
+     <p>帳號</p>
+     <input [(ngModel)]="account" type="text" name="account">
     </div>
     <div class="password">
     <p>密碼</p>
-    <input type="{{showPassword? 'text' : 'password'}}" [(ngModel)]="password" />
-    <span>
-      <mat-icon fontIcon="{{showPassword? 'visibility' : 'visibility_off'}}" (click)="changePasswordIcon()"></mat-icon>
-    </span>
+    <div class="passwordInside">
+     <input type="{{showPassword? 'text' : 'password'}}" [(ngModel)]="password" />
+     <mat-icon fontIcon="{{showPassword? 'visibility' : 'visibility_off'}}" (click)="changePasswordIcon()"></mat-icon>
     </div>
-    <br>
+    </div>
+    <div class="buttonLog">
     <button (click)="logIn()">登入</button>
+    </div>
 </div>

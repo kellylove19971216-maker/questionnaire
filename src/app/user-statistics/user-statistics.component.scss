@@ -1,0 +1,104 @@
+.background {
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Microsoft JhengHei', Arial, sans-serif;
+  background-color: #f4f4f4;
+}
+
+.background1 {
+  margin-left: 60px;
+}
+
+.questionnaire-info {
+  margin-bottom: 30px;
+
+  h2 {
+    text-align: center;
+    color: #8B4513;
+    margin-bottom: 20px;
+    font-size: 24px;
+  }
+
+  .time-info {
+    text-align: center;
+    color: #666;
+    margin-bottom: 20px;
+    font-size: 14px;
+  }
+
+  .description {
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 30px;
+    border-radius: 5px;
+    line-height: 1.6;
+    text-align: justify;
+  }
+}
+
+.canvasStyle {
+  width: 40%;
+  height: 300px;
+  /* 或依需求調整 */
+}
+
+.flexChart {
+  margin-top: 10px;
+  display: flex;
+}
+
+.canvasData {
+  background-color: #d5d5d598;
+  margin-top: 80px;
+  margin-left: 150px;
+  width: 40%;
+  height: 100%;
+  padding: 20px;
+  border-radius: 5px;
+
+  h5 {
+    font-size: 20px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    color: #443f34;
+  }
+
+  span {
+    font-size: 20px;
+    color: #6c584c;
+  }
+}
+
+.dataText {
+  h3 {
+    margin-top: 20px;
+  }
+
+  p {
+    font-size: 20px;
+    background-color: #d5d5d598;
+    margin-left: 2%;
+    margin-top: 10px;
+    width: 92%;
+    height: 100%;
+    padding: 20px;
+    border-radius: 5px;
+  }
+}
+
+.btn-back {
+  padding: 10px 30px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  background-color: #6c584c;
+  color: white;
+  margin: 30px 42.5%;
+
+  &:hover {
+    background-color: darken(#6c757d, 10%);
+  }
+}

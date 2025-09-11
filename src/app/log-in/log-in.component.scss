@@ -1,12 +1,79 @@
-.background1{
-  margin: 1rem 40%;
+hr {
+  border: none;
+  height: 2px;
+  background: linear-gradient(to right, #8b6f47, #c7b299, #8b6f47);
+  margin: 2rem 0;
 }
-.tiltle1{
+.background1 {
+  margin: 1rem 35%;
+
+  h1 {
+    text-align: center;
+  }
+
+  p {
+    text-align: center;
+    color: rgb(193, 151, 97);
+  }
+}
+
+.background2 {
+  margin: 1rem 35%;
   text-align: center;
+
+  div {
+    padding-top: 30px;
+  }
+
+  input {
+    width: 80%;
+    height: 40px;
+    background-color: #b8b8b870;
+    border: none;
+    font-size: 16px;
+  }
+  p{
+    font-weight: bold;
+    font-size: 20px;
+    padding-bottom: 5px;
+    text-align: left;
+    padding-left: 35px;
+  }
 }
-.password{
-  span{
-    height: auto;
-    width: auto;
+
+.passwordInside {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 0px !important;
+
+  input {
+    margin-left: 37px;
+  }
+
+  mat-icon {
+    margin-left: 5px;
+    cursor: pointer;
+  }
+}
+
+.buttonLog {
+
+  button{
+  padding: 10px 30px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  background-color: darken(#ad8d60, 10%);
+  color: aliceblue;
+  margin-top: 15px;
+
+  &:hover {
+  background-color: darken(#8b6f47, 10%);
+  cursor: pointer;
+  }
   }
 }
