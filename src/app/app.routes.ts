@@ -6,7 +6,8 @@ import { UserInputComponent } from './user-input/user-input.component';
 import { UserStatisticsComponent } from './user-statistics/user-statistics.component';
 import { UserConfirmComponent } from './user-confirm/user-confirm.component';
 import { LogInComponent } from './log-in/log-in.component';
-import { MangerListComponent } from './manger-list/manger-list.component';
+import { MangerInputComponent } from './manger-input/manger-input.component';
+import { FeedbackComponent } from './feedback/feedback.component';
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -16,6 +17,7 @@ export const routes: Routes = [
   { path: 'user-statistics', component: UserStatisticsComponent },
   { path: 'user-confirm', component: UserConfirmComponent },
   { path: 'log-in', component: LogInComponent },
-  { path: 'manger-list', component: MangerListComponent },
+  { path: 'manger-input', component: MangerInputComponent },
+  { path: 'feedback', component: FeedbackComponent },
   { path: '', component: HomeComponent },
 ];

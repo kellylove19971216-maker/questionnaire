@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
+import { MangerService } from './../@services/manger.service';
 
 @Component({
   selector: 'app-log-in',
@@ -13,7 +14,7 @@ import { Router } from '@angular/router';
   styleUrl: './log-in.component.scss'
 })
 export class LogInComponent {
-  constructor(private router: Router) { }
+  constructor(private router: Router , private mangerService: MangerService,) { }
   showPassword = false;
   account !: string;
   password !: string;
@@ -23,6 +24,7 @@ export class LogInComponent {
   }
 
   logIn() {
-    this.router.navigate(['/manger-list']);
+    this.mangerService.logIn();
+    this.router.navigate(['/user-list']);
   }
 }

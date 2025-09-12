@@ -8,7 +8,11 @@
       <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">首頁</a>
       <a routerLink="/author" routerLinkActive="active" class="nav-item">關於作者</a>
       <a routerLink="/user-list" routerLinkActive="active" class="nav-item">問卷列表</a>
+      @if(isAdmin){
+      <a routerLink="/user-list" class="nav-item login-btn" (click)="logOut()">後台登出</a>
+      } @else {
       <a routerLink="/log-in" routerLinkActive="active" class="nav-item login-btn">後台登入</a>
+      }
     </nav>
   </header>
 

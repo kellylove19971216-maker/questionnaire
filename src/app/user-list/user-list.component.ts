@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { MangerService } from './../@services/manger.service';
+import { Component, OnInit, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -6,6 +7,8 @@ import { ViewChild } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
+import { SelectionModel } from '@angular/cdk/collections';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
 //假資料的interface
@@ -51,20 +54,43 @@ const ELEMENT_DATA: PeriodicElement[] = [
     MatTableModule,
     MatPaginatorModule,
     MatIconModule,
+    MatCheckboxModule,
   ],
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.scss'
 })
 
-export class UserListComponent implements OnInit {
+export class UserListComponent{
 
   chooseDateS !: string;
   chooseDateE !: string;
   searchData !: string;
   displayedColumns: string[] = ['id', 'name', 'state', 'sTime', 'eTime', 'result'];
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+  //管理者登入
+  isAdmin !:boolean;
+  selectData = output<any[]>()
+  selection = new SelectionModel<PeriodicElement>(true, []);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  constructor( private mangerService: MangerService,) {}
+
+  //頁面一啟動
+  ngOnInit(): void {
+    this.mangerService._isAdmin$.subscribe((res) => {
+    this.isAdmin=res;
+    //如果登入
+    if (this.isAdmin) {
+      if (!this.displayedColumns.includes('select')) {
+        this.displayedColumns.unshift('select');
+      }
+    } else {
+      // 如果你想登出時拿掉 select，可以這樣：
+      this.displayedColumns = this.displayedColumns.filter(col => col !== 'select');
+    }
+  });
+  }
 
   //換頁方法
   ngAfterViewInit() {
@@ -126,7 +152,37 @@ export class UserListComponent implements OnInit {
     }
     this.dataSource.data = AllData;
   }
-  ngOnInit(): void {
 
+  //管理者專區
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
   }
+
+  masterToggle() {
+    this.isAllSelected() ?
+      this.selection.clear() :
+      this.dataSource.data.forEach(row => this.selection.select(row));
+    this.outputData();
+  }
+
+    outputData() {
+    let checkData: Array<any> = [];
+    this.selection.selected.forEach(s => checkData.push(s));
+    this.selectData.emit(checkData);
+  }
+  //刪除全家
+  del() {
+  // 用 selection.selected 取勾選的資料
+  const selectedIds = this.selection.selected.map(s => s.id);
+  // 過濾掉勾選的資料
+  const newData = this.dataSource.data.filter(item => !selectedIds.includes(item.id));
+  // 更新 dataSource
+  this.dataSource.data = newData;
+  // 清空勾選
+  this.selection.clear();
+  }
+  //新增問卷
+  goAdd(){}
 }
