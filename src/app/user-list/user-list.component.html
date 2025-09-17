@@ -16,7 +16,6 @@
     <table mat-table [dataSource]="dataSource">
 
       <!-- 判斷是管理者才顯示 -->
-      <!-- 參考網址https://stackblitz.com/edit/angular-mat-table-checkbox-select-all-ivt1dw?file=app%2Ftable-selection-example.ts -->
       @if (isAdmin) {
       <!-- Checkbox Column -->
       <ng-container matColumnDef="select">
@@ -93,7 +92,7 @@
             <span class="disabled-text">尚未開始</span>
             } @else if (element.state === 1) {
             <a [routerLink]="'/user-input'">
-              填寫 / 修改
+              開始填寫
             </a>
             } @else if (element.state === 2) {
             <a [routerLink]="'/user-statistics'">
@@ -116,10 +115,7 @@
             } @else if (element.state === 2) {
             <!-- 狀態 2 顯示兩個連結 -->
             <a [routerLink]="'/feedback'">
-              查看回饋 /
-            </a>
-            <a [routerLink]="'/user-statistics'">
-              查看結果
+              查看回饋
             </a>
             }
           </div>

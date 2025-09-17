@@ -1,79 +1,103 @@
+
+/* 標題區 */
+.background1 {
+  text-align: center;
+  margin: 2rem auto;
+  max-width: 500px;
+
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: #4b2f1a;
+  }
+
+  p {
+    font-size: 1.1rem;
+    color: #c19761;
+    letter-spacing: 0.5px;
+  }
+}
+
+/* 登入表單區 */
+.background2 {
+  max-width: 400px;
+  margin: 2rem auto;
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  text-align: left;
+
+  .account, .password {
+    margin-bottom: 1.5rem;
+
+    p {
+      font-weight: bold;
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    input {
+      width: 99%;
+      padding: 10px 12px;
+      font-size: 16px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      background-color: #fdf6f0;
+      transition: border-color 0.3s;
+
+      &:focus {
+        outline: none;
+        border-color: #8b6f47;
+      }
+    }
+  }
+
+  .passwordInside {
+    display: flex;
+    align-items: center;
+    gap: 1px;
+
+    mat-icon {
+      cursor: pointer;
+      color: #8b6f47;
+      transition: color 0.3s;
+
+      &:hover {
+        color: #b5835a;
+      }
+    }
+  }
+
+  .buttonLog {
+    text-align: center;
+
+    button {
+      width: 100%;
+      padding: 12px 0;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      color: #fff;
+      background: linear-gradient(135deg, #a47551, #8b5e34);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: all 0.3s;
+
+      &:hover {
+        background: linear-gradient(135deg, #b5835a, #9c6b3f);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+      }
+    }
+  }
+}
+
+/* 分隔線 */
 hr {
   border: none;
   height: 2px;
   background: linear-gradient(to right, #8b6f47, #c7b299, #8b6f47);
-  margin: 2rem 0;
-}
-.background1 {
-  margin: 1rem 35%;
-
-  h1 {
-    text-align: center;
-  }
-
-  p {
-    text-align: center;
-    color: rgb(193, 151, 97);
-  }
-}
-
-.background2 {
-  margin: 1rem 35%;
-  text-align: center;
-
-  div {
-    padding-top: 30px;
-  }
-
-  input {
-    width: 80%;
-    height: 40px;
-    background-color: #b8b8b870;
-    border: none;
-    font-size: 16px;
-  }
-  p{
-    font-weight: bold;
-    font-size: 20px;
-    padding-bottom: 5px;
-    text-align: left;
-    padding-left: 35px;
-  }
-}
-
-.passwordInside {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding-top: 0px !important;
-
-  input {
-    margin-left: 37px;
-  }
-
-  mat-icon {
-    margin-left: 5px;
-    cursor: pointer;
-  }
-}
-
-.buttonLog {
-
-  button{
-  padding: 10px 30px;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  background-color: darken(#ad8d60, 10%);
-  color: aliceblue;
-  margin-top: 15px;
-
-  &:hover {
-  background-color: darken(#8b6f47, 10%);
-  cursor: pointer;
-  }
-  }
+  margin: 3rem 0;
 }

@@ -13,8 +13,8 @@
   border: 2px solid #8b6f47;
   border-radius: 12px;
   padding: 20px 5%;
-  background-color: #fdf6f0; /* 溫暖背景 */
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  background-color: #fdf6f0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
 
 .search input {
@@ -24,6 +24,7 @@
   border: 1px solid #c9b79a;
   border-radius: 6px;
   font-size: 14px;
+  cursor: pointer;
 }
 
 .search button {
@@ -47,7 +48,7 @@
   margin-top: 20px;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
 }
 
 table {
@@ -57,29 +58,57 @@ table {
   background-color: #fdf6f0;
 }
 
-/* 針對表格header*/
-.mat-mdc-table th.mat-mdc-header-cell {
-  background-color: #cfab87;
-  color: #4b2f1a;
-  font-weight: bold;
+/* 各欄位寬度 */
+.mat-column-id {
+  width: 100px;
+}
+
+.mat-column-title {
+  width: 300px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mat-column-state,
+.mat-column-sTime,
+.mat-column-eTime {
+  width: 120px;
+}
+
+.mat-column-sTime,
+.mat-column-eTime {
+  width: 180px;
+}
+
+.mat-column-result {
+  width: 250px;
+}
+
+/* 表格 header & cell 共用字體設定 */
+.mat-mdc-table th.mat-mdc-header-cell,
+.mat-mdc-table td.mat-mdc-cell {
   font-size: 14px;
   text-align: center;
   padding: 12px 16px;
+  color: #4b2f1a;
+}
+
+.mat-mdc-table th.mat-mdc-header-cell {
+  background-color: #cfab87;
+  font-weight: bold;
   border-bottom: 2px solid #8b6f47;
 }
-.header-cell{
+
+.mat-mdc-table td.mat-mdc-cell {
+  border-bottom: 1px solid #e1c9a1;
+}
+
+.header-cell {
   display: flex;
   gap: 5px;
   align-items: center;
   justify-content: center;
-}
-
-.mat-mdc-table td.mat-mdc-cell {
-  padding: 12px 16px;
-  font-size: 14px;
-  text-align: center;
-  color: #4b2f1a;
-  border-bottom: 1px solid #e1c9a1;
 }
 
 .mat-mdc-table .mat-mdc-row:hover {
@@ -87,40 +116,51 @@ table {
   transition: background 0.3s;
 }
 
-/* 針對表格 header 裡的 select */
+/* header 裡的 select */
 .mat-mdc-table th.mat-mdc-header-cell select {
-  background-color: #cfab87; /* 跟 th 一樣的底色 */
-  color: #4b2f1a;            /* 跟文字顏色一致 */
-  font-weight: bold;          /* 跟 th 一樣字型粗細 */
-  font-size: 14px;            /* 字型大小 */
-  padding: 6px 10px;           /* 內距，可比 th 小一點 */
-  border: 2px solid #4b2f1a;               /* 移除邊框 */
-  border-radius: 4px;         /* 讓 select 邊角圓潤一點 */
-  cursor: pointer;            /* 滑鼠變手型 */
+  background-color: #cfab87;
+  color: #4b2f1a;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 6px 10px;
+  border: 2px solid #4b2f1a;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 .mat-mdc-table th.mat-mdc-header-cell select:focus {
-  outline: none; /* 選中時不出現藍框 */
+  outline: none;
 }
 
 /* 狀態文字 */
-.state-not-started {
-  color: #a89f91; /* 淺灰棕，表示尚未開始 */
+.state-not-started,
+.state-in-progress,
+.state-ended {
   font-weight: bold;
+}
+
+.state-not-started {
+  color: #a89f91;
 }
 
 .state-in-progress {
-  color: #da8d56; /* 中咖啡色，表示進行中 */
-  font-weight: bold;
+  color: #da8d56;
 }
 
 .state-ended {
-  color: #6b3f1a; /* 深木色，表示已截止 */
-  font-weight: bold;
+  color: #6b3f1a;
 }
 
 /* 操作按鈕 / 管理者連結 */
 .name-manger {
+display: flex;
+gap: 10px;
+justify-content: center;
+}
+
+
+/* 單個按鈕樣式 */
+a {
   display: inline-block;
   padding: 6px 14px;
   background: linear-gradient(135deg, #a47551, #8b5e34);
@@ -132,12 +172,12 @@ table {
   text-decoration: none;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
   transition: all 0.3s ease;
-}
 
-.name-manger:hover {
+  :hover {
   background: linear-gradient(135deg, #b5835a, #9c6b3f);
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+}
 }
 
 /* 管理者操作浮動按鈕 */
@@ -173,5 +213,5 @@ table {
   background-color: #fdf6f0;
   border-radius: 8px;
   padding: 5px 10px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
 }

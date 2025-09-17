@@ -1,17 +1,18 @@
 <div class="app-container">
   <header class="header">
     <div class="logo">
-      <img src="writing.png" alt="動態問卷" class="logo-icon">
-      <h1>動態問卷</h1>
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="logo-link">
+        <img src="writing.png" alt="動態問卷" class="logo-icon">
+        <span class="logo-label">動態問卷</span>
+      </a>
     </div>
     <nav class="nav-menu">
-      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">首頁</a>
       <a routerLink="/author" routerLinkActive="active" class="nav-item">關於作者</a>
       <a routerLink="/user-list" routerLinkActive="active" class="nav-item">問卷列表</a>
       @if(isAdmin){
-      <a routerLink="/user-list" class="nav-item login-btn" (click)="logOut()">後台登出</a>
+      <a routerLink="/user-list" class="nav-item" (click)="logOut()">後台登出</a>
       } @else {
-      <a routerLink="/log-in" routerLinkActive="active" class="nav-item login-btn">後台登入</a>
+      <a routerLink="/log-in" routerLinkActive="active" class="nav-item">後台登入</a>
       }
     </nav>
   </header>
@@ -20,3 +21,15 @@
     <router-outlet></router-outlet>
   </main>
 </div>
+<footer class="footer">
+  <div class="footer-container">
+    <p>© 2025 動態問卷. 釋放你的小宇宙！</p>
+    <p>喜歡我的作品，歡迎徵才，拯救失業少女</p>
+    <nav class="footer-links">
+      <a href="https://elite.taiwanjobs.gov.tw/" target="_blank" rel="noopener noreferrer">產業新尖兵</a>
+      <a href="https://onceagain.tw/" target="_blank" rel="noopener noreferrer">万十科技</a>
+      <a href="https://www.youtube.com/watch?v=_Yhyp-_hX2s&list=RD_Yhyp-_hX2s&start_radio=1" target="_blank"
+        rel="noopener noreferrer">心知所向</a>
+    </nav>
+  </div>
+</footer>

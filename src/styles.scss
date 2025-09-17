@@ -32,3 +32,11 @@ img {
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* 適用於 Microsoft Edge 和 IE */
+input[type="password"]::-ms-reveal {
+  display: none;
+}
+input[type="password"]::-ms-clear {
+  display: none;
+}

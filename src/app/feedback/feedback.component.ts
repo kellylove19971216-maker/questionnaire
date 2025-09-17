@@ -128,4 +128,7 @@ export class FeedbackComponent {
   goBack() {
     this.router.navigate(['/user-list']);
   }
+  goStatistics() {
+    this.router.navigate(['/user-statistics']);
+  }
 }
