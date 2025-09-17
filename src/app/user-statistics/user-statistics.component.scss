@@ -6,7 +6,7 @@
 }
 
 .background1 {
-  margin-left: 60px;
+  margin: 0 1%;
 }
 
 .questionnaire-info {
@@ -50,7 +50,7 @@
 .canvasData {
   background-color: #d5d5d598;
   margin-top: 80px;
-  margin-left: 150px;
+  margin-left: 180px;
   width: 40%;
   height: 100%;
   padding: 20px;
@@ -78,7 +78,7 @@
   p {
     font-size: 20px;
     background-color: #d5d5d598;
-    margin-left: 2%;
+    margin-left: 4%;
     margin-top: 10px;
     width: 92%;
     height: 100%;
@@ -96,7 +96,7 @@
   transition: background-color 0.3s;
   background-color: #6c584c;
   color: white;
-  margin: 30px 42.5%;
+  margin: 30px 44%;
 
   &:hover {
     background-color: darken(#6c757d, 10%);

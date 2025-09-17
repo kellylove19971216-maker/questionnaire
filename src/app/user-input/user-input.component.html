@@ -1,13 +1,13 @@
 <div class="questionnaire-container">
   <!-- 問卷標題 -->
-  <h1 class="questionnaire-title">{{quest.title}}</h1>
+  <h1 class="questionnaire-title">{{titleData}}</h1>
 
   <!-- 問卷開放時間 -->
-  <div class="questionnaire-period">問卷開放時間：{{quest.sTime}}~{{quest.eTime}}</div>
+  <div class="questionnaire-period">問卷開放時間：{{sTimeData}}~{{eTimeData}}</div>
 
   <!-- 問卷說明 -->
   <div class="questionnaire-description">
-    {{quest.explain}}
+    {{explainData}}
   </div>
 
   <!-- 基本資料區塊 -->
@@ -28,22 +28,22 @@
       </div>
       <div class="form-group">
         <label>年齡：</label>
-        <input [(ngModel)]="ageData" type="number" class="form-select">
+        <input [(ngModel)]="ageData" type="number" class="form-select" min="1">
       </div>
       <div class="form-group">
         <label>性別：</label>
         <div class="sex-group">
           <select [(ngModel)]="sexData" class="form-select">
             <option value="">請選擇性別</option>
-            <option value="male">男</option>
-            <option value="female">女</option>
-            <option value="other">不便告知</option>
+            <option value="男">男</option>
+            <option value="女">女</option>
+            <option value="不便告知">不便告知</option>
           </select>
         </div>
       </div>
       <div class="form-group">
         <label>居住縣市：</label>
-        <select [(ngModel)]="selectData" class="form-select">
+        <select [(ngModel)]="cityData" class="form-select">
           <option value="">請選擇居住縣市</option>
           <!-- 直轄市 -->
           <option value="臺北市">臺北市</option>
@@ -78,14 +78,20 @@
   <!-- 問卷作答區塊 -->
   <div class="questionnaire-section">
     <h2>問卷作答:</h2>
-    <!-- 單選題區塊 -->
     <div class="question-block">
       <h3>一、單選題 (Single Choice)</h3>
       <div class="question">
         @for(questData of answers;track $index){
         <div class="radio-group">
+
+      <!-- 單選題區塊 -->
           @if(questData.type == 'Q'){
-          <p>{{questData.questId}}.{{questData.questName}}</p>
+          <p>
+            {{questData.questId}}.{{questData.questName}}
+            @if (questData.need) {
+            <span style="color: red;">*</span>
+            }
+          </p>
           @for(option of questData.options;track $index){
           <!-- ngmodel會抓value的值 -->
           <label><input [(ngModel)]="questData.radioAnswer" type="radio" value="{{option.code}}"
@@ -95,6 +101,8 @@
         </div>
         }
       </div>
+
+
       <!-- 多選題區塊 -->
       <div class="question-block">
         <h3>二、多選題 (Multiple Choice)</h3>
@@ -102,7 +110,11 @@
           @for(questData of answers; track $index){
           @if(questData.type == 'M'){
           <div class="radio-group">
-            <p>{{questData.questId}}. {{questData.questName}}</p>
+            <p>{{questData.questId}}. {{questData.questName}}
+              @if (questData.need) {
+              <span style="color: red;">*</span>
+              }
+            </p>
             @for(option of questData.options; track $index){
             <label>
               <input [(ngModel)]="option.boxBollen" type="checkbox" value="{{option.code}}"
@@ -121,7 +133,11 @@
         <div class="question">
           @for(questData of answers; track $index){
           @if(questData.type == 'T'){
-          <p>{{questData.questId}}. {{questData.questName}}</p>
+          <p>{{questData.questId}}. {{questData.questName}}
+            @if (questData.need) {
+            <span style="color: red;">*</span>
+            }
+          </p>
           <textarea [(ngModel)]="questData.textAnswer" class="form-textarea" placeholder="此處可填寫"
             name="{{questData.questId}}"></textarea>
           }
@@ -133,7 +149,13 @@
 
   <!-- 按鈕區域 -->
   <div class="button-group">
+    @if(isAdmin){
+    <button (click)="goBack()" routerLink="/manger-input" class="btn-cancel">修改</button>
+    <button  (click)="saveData()" routerLink="/user-list" class="btn-save">存檔</button>
+    <button  (click)="publish()" routerLink="/user-list" class="btn-submit">發布</button>
+    }@else {
     <button routerLink="/user-list" routerLinkActive="active" class="btn-cancel">取消</button>
-    <button (click)="nextStep()" routerLink="/user-confirm" routerLinkActive="active" class="btn-submit">下一步</button>
+    <button (click)="nextStep()" class="btn-submit">預覽</button>
+    }
   </div>
 </div>

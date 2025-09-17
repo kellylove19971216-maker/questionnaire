@@ -1,23 +1,23 @@
 <div class="background1">
-<!-- 日期選擇器-->
-<div class="search">
-  <div>
-  <span>即時查詢：</span><input (keyup)="changeInput($event)" placeholder="請輸入欲搜尋之問卷名稱" [(ngModel)]="searchData">
+  <!-- 日期選擇器-->
+  <div class="search">
+    <div>
+      <span>即時查詢：</span><input (keyup)="changeInput($event)" placeholder="請輸入欲搜尋之問卷名稱" [(ngModel)]="searchData">
+    </div>
+    <div>
+      <span>問卷開始時間：</span><input type="date" tooltip="TEST" [(ngModel)]="chooseDateS" max={{chooseDateE}} min={{today}}>
+    </div>
+    <span>迄</span><input type="date" [(ngModel)]="chooseDateE" min={{chooseDateS}} [disabled]="!chooseDateS" [title]="!chooseDateS ? '請先填選開始日期' : ''">
+    <button class="iconList">搜尋</button>
+    <div class="header-cell">重置<mat-icon (click)="reset()" fontIcon="sync" class="iconList"></mat-icon></div>
   </div>
-  <div>
-  <span>問卷開始時間：</span><input type="date" [(ngModel)]="chooseDateS">
-  </div>
-  <span>迄</span><input type="date" [(ngModel)]="chooseDateE" min={{chooseDateS}}>
-  <button class="iconList">搜尋</button>
-  <div class="header-cell">重置<mat-icon (click)="reset()" fontIcon="sync" class="iconList"></mat-icon></div>
-</div>
   <!-- 表格 -->
   <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource">
 
-    <!-- 判斷是管理者才顯示 -->
-    <!-- 參考網址https://stackblitz.com/edit/angular-mat-table-checkbox-select-all-ivt1dw?file=app%2Ftable-selection-example.ts -->
-    @if (isAdmin) {
+      <!-- 判斷是管理者才顯示 -->
+      <!-- 參考網址https://stackblitz.com/edit/angular-mat-table-checkbox-select-all-ivt1dw?file=app%2Ftable-selection-example.ts -->
+      @if (isAdmin) {
       <!-- Checkbox Column -->
       <ng-container matColumnDef="select">
         <th mat-header-cell *matHeaderCellDef>
@@ -26,12 +26,12 @@
           </mat-checkbox>
         </th>
         <td mat-cell *matCellDef="let row">
-          <mat-checkbox (click)="$event.stopPropagation()" (change)="($event ? selection.toggle(row) : null) && outputData()"
-            [checked]="selection.isSelected(row)">
+          <mat-checkbox (click)="$event.stopPropagation()"
+            (change)="($event ? selection.toggle(row) : null) && outputData()" [checked]="selection.isSelected(row)">
           </mat-checkbox>
         </td>
       </ng-container>
-    }
+      }
 
       <!-- 編號 -->
       <ng-container matColumnDef="id">
@@ -44,29 +44,25 @@
       </ng-container>
 
       <!-- 名稱 -->
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> 名稱 </th>
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef> 問卷名稱 </th>
         <td mat-cell *matCellDef="let element">
-           <!-- 成立/不成立 前往網頁/什麼都沒有 -->
-            @if(isAdmin === false){
-          <a [routerLink]="element.state === 1 ? '/user-input' : null"
-            [ngClass]="{'name-in-progress': element.state === 1}">
-            {{ element.name }}
-          </a>
-        }@else {
-          <!-- 管理者區 -->
-          <a [routerLink]="element.state === 0 ? '/manger-input' : '/feedback'"
-            [ngClass]="'name-manger'">
-            {{ element.name }}
-          </a>
-        }
-
+          {{ element.title }}
         </td>
       </ng-container>
 
       <!-- 問卷狀態 -->
       <ng-container matColumnDef="state">
-        <th mat-header-cell *matHeaderCellDef> 問卷狀態 </th>
+        <th mat-header-cell *matHeaderCellDef>
+          <div>
+            <select [(ngModel)]="searchState" (ngModelChange)="applyFilter()">
+              <option [ngValue]="-1">全部</option>
+              <option [ngValue]="0">尚未開始</option>
+              <option [ngValue]="1">進行中</option>
+              <option [ngValue]="2">已截止</option>
+            </select>
+          </div>
+        </th>
         <td mat-cell *matCellDef="let element">
           <span [ngClass]="getStateClass(element.state)">{{getStateText(element.state)}}</span>
         </td>
@@ -75,9 +71,7 @@
       <!-- 開始時間 -->
       <ng-container matColumnDef="sTime">
         <th mat-header-cell *matHeaderCellDef>
-          <div class="header-cell">開始時間
-            <mat-icon (click)="sortByDate()" fontIcon="sync_alt" class="iconList"></mat-icon>
-          </div>
+          <div>開始時間</div>
         </th>
         <td mat-cell *matCellDef="let element"> {{element.sTime}} </td>
       </ng-container>
@@ -90,12 +84,46 @@
 
       <!-- 查看結果 -->
       <ng-container matColumnDef="result">
-        <th mat-header-cell *matHeaderCellDef>查看結果 </th>
+        <th mat-header-cell *matHeaderCellDef>操作介面</th>
         <td mat-cell *matCellDef="let element">
-          <a [routerLink]="element.state === 2 ? '/user-statistics' : null"
-            [ngClass]="{'statistics-in-progress': element.state === 2}">
-            {{element.result}}
-          </a>
+          <!-- 使用者區 -->
+          @if (!isAdmin) {
+          <div class="name-manger">
+            @if (element.state === 0) {
+            <span class="disabled-text">尚未開始</span>
+            } @else if (element.state === 1) {
+            <a [routerLink]="'/user-input'">
+              填寫 / 修改
+            </a>
+            } @else if (element.state === 2) {
+            <a [routerLink]="'/user-statistics'">
+              查看結果
+            </a>
+            }
+          </div>
+          }
+          <!-- 管理者區 -->
+          @else {
+          <div class="name-manger">
+            @if (element.state === 0) {
+            <a [routerLink]="'/manger-input'" (click)="edit(element)">
+              編輯問卷
+            </a>
+            } @else if (element.state === 1) {
+            <a [routerLink]="'/feedback'">
+              查看回饋
+            </a>
+            } @else if (element.state === 2) {
+            <!-- 狀態 2 顯示兩個連結 -->
+            <a [routerLink]="'/feedback'">
+              查看回饋 /
+            </a>
+            <a [routerLink]="'/user-statistics'">
+              查看結果
+            </a>
+            }
+          </div>
+          }
         </td>
       </ng-container>
 
@@ -108,9 +136,9 @@
   </div>
 </div>
 <!-- 管理者區 -->
- @if(isAdmin){
-  <div class="mangerIcon">
-    <mat-icon fontIcon="delete" (click)="del()"></mat-icon>
-    <mat-icon fontIcon="add_2" (click)="goAdd()"></mat-icon>
-  </div>
- }
+@if(isAdmin){
+<div class="mangerIcon">
+  <mat-icon fontIcon="delete" (click)="del()"></mat-icon>
+  <mat-icon [routerLink]="'/manger-input'" fontIcon="add_2"></mat-icon>
+</div>
+}

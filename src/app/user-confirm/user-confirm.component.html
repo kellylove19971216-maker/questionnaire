@@ -12,7 +12,7 @@
     <p>Email：{{emailData}}</p>
     <p>年齡：{{ageData}}</p>
     <p>性別：{{sexData}}</p>
-    <p>居住縣市：{{selectData}}</p>
+    <p>居住縣市：{{cityData}}</p>
   </div>
 <hr>
 @if(answers){
@@ -68,7 +68,11 @@
 }
 
   <div class="button-group">
+    @if(isAdmin){
+    <button (click)="previewBack()" routerLink="/feedback">上一頁</button>
+    }@else {
     <button (click)="goBack()" routerLink="/user-input">返回修改</button>
     <button routerLink="/user-list">確認送出</button>
+    }
   </div>
 </div>

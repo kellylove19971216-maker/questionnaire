@@ -1,93 +1,146 @@
 .background1 {
   margin: 1rem 0;
+  font-family: 'Microsoft JhengHei', Arial, sans-serif;
 }
 
-/*搜尋欄位*/
+/* 搜尋欄位 */
 .search {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: flex-start;
-  gap: 35px;
+  gap: 20px;
   border: 2px solid #8b6f47;
-  padding: 25px 8%;
-
-  button {
-    width: 115px;
-    height: 25px;
-  }
-
-  input {
-    width: auto;
-    height: 25px;
-  }
+  border-radius: 12px;
+  padding: 20px 5%;
+  background-color: #fdf6f0; /* 溫暖背景 */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
 
-/*表格欄位*/
-.iconList {
+.search input {
+  width: 180px;
+  height: 28px;
+  padding: 3px 8px;
+  border: 1px solid #c9b79a;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.search button {
+  width: 100px;
+  height: 30px;
+  background: linear-gradient(135deg, #a47551, #8b5e34);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
   cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.search button:hover {
+  background: linear-gradient(135deg, #b5835a, #9c6b3f);
+}
+
+/* 表格樣式 */
+.mat-elevation-z8 {
+  margin-top: 20px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
 }
 
 table {
   width: 100%;
-  padding-top: 30px;
+  border-collapse: separate;
+  border-spacing: 0;
+  background-color: #fdf6f0;
 }
 
-.header-cell {
-  display: flex;
-  align-items: center;
-  /* 垂直置中 */
-  justify-content: flex-start;
-  /* 或 space-between */
-  gap: 8px;
-  /* 文字和 icon 的間距 */
-}
-
-.mat-mdc-table th.mat-mdc-header-cell,
-.mat-mdc-table td.mat-mdc-cell {
-  border-bottom: 2px solid #8b6f47;
-  /* 這裡改成你要的顏色 */
-}
-
-.mat-mdc-table .mat-mdc-header-row {
+/* 針對表格header*/
+.mat-mdc-table th.mat-mdc-header-cell {
   background-color: #cfab87;
-  /* 淺灰色，可改成你要的 */
+  color: #4b2f1a;
+  font-weight: bold;
+  font-size: 14px;
+  text-align: center;
+  padding: 12px 16px;
+  border-bottom: 2px solid #8b6f47;
+}
+.header-cell{
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
 }
 
+.mat-mdc-table td.mat-mdc-cell {
+  padding: 12px 16px;
+  font-size: 14px;
+  text-align: center;
+  color: #4b2f1a;
+  border-bottom: 1px solid #e1c9a1;
+}
+
+.mat-mdc-table .mat-mdc-row:hover {
+  background-color: #f7e7d5;
+  transition: background 0.3s;
+}
+
+/* 針對表格 header 裡的 select */
+.mat-mdc-table th.mat-mdc-header-cell select {
+  background-color: #cfab87; /* 跟 th 一樣的底色 */
+  color: #4b2f1a;            /* 跟文字顏色一致 */
+  font-weight: bold;          /* 跟 th 一樣字型粗細 */
+  font-size: 14px;            /* 字型大小 */
+  padding: 6px 10px;           /* 內距，可比 th 小一點 */
+  border: 2px solid #4b2f1a;               /* 移除邊框 */
+  border-radius: 4px;         /* 讓 select 邊角圓潤一點 */
+  cursor: pointer;            /* 滑鼠變手型 */
+}
+
+.mat-mdc-table th.mat-mdc-header-cell select:focus {
+  outline: none; /* 選中時不出現藍框 */
+}
+
+/* 狀態文字 */
 .state-not-started {
-  color: gray;
+  color: #a89f91; /* 淺灰棕，表示尚未開始 */
+  font-weight: bold;
 }
 
 .state-in-progress {
-  color: green;
+  color: #da8d56; /* 中咖啡色，表示進行中 */
   font-weight: bold;
-  /* 如果想更醒目 */
 }
 
 .state-ended {
-  color: red;
-}
-
-.name-in-progress {
-  color: #513c1f;
+  color: #6b3f1a; /* 深木色，表示已截止 */
   font-weight: bold;
-  cursor: pointer;
-  text-decoration: underline;
 }
 
-.statistics-in-progress {
-  color: #513c1f;
-  font-weight: bold;
-  cursor: pointer;
-  text-decoration: underline;
-}
-
+/* 操作按鈕 / 管理者連結 */
 .name-manger {
-  color: #513c1f;
+  display: inline-block;
+  padding: 6px 14px;
+  background: linear-gradient(135deg, #a47551, #8b5e34);
+  color: #fff;
   font-weight: bold;
+  font-size: 14px;
+  border-radius: 20px;
   cursor: pointer;
-  text-decoration: underline;
+  text-decoration: none;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
 }
 
+.name-manger:hover {
+  background: linear-gradient(135deg, #b5835a, #9c6b3f);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+}
+
+/* 管理者操作浮動按鈕 */
 .mangerIcon {
   display: flex;
   flex-direction: column;
@@ -96,4 +149,29 @@ table {
   left: 8%;
   gap: 16px;
   cursor: pointer;
+}
+
+.iconList {
+  cursor: pointer;
+  color: #8b5e34;
+  transition: color 0.3s;
+}
+
+.iconList:hover {
+  color: #b5835a;
+}
+
+/* disabled 文字 */
+.disabled-text {
+  color: #aaa;
+  cursor: not-allowed;
+  font-style: italic;
+}
+
+/* 分頁器 */
+.mat-mdc-paginator {
+  background-color: #fdf6f0;
+  border-radius: 8px;
+  padding: 5px 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.08);
 }

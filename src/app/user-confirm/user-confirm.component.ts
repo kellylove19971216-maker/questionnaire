@@ -1,3 +1,4 @@
+import { MangerService } from './../@services/manger.service';
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -10,7 +11,7 @@ import { InputDataService } from '../@services/input-data.service';
   styleUrl: './user-confirm.component.scss'
 })
 export class UserConfirmComponent {
-  selectData: string = '';
+  cityData: string = '';
   nameData: string = '';
   phoneData: string = '';
   emailData: string = '';
@@ -25,38 +26,47 @@ export class UserConfirmComponent {
   sTimeData: string = '';
   eTimeData: string = '';
   explainData: string = '';
+  isAdmin !:boolean; //管理者狀態
 
-  constructor(private inputDataService: InputDataService) { }
+  constructor(private inputDataService: InputDataService, private mangerService:MangerService) { }
 
 
   ngOnInit(): void {
-    this.ageData = this.inputDataService.answerData.ageData;
-    this.emailData = this.inputDataService.answerData.emailData;
-    this.nameData = this.inputDataService.answerData.nameData;
-    this.phoneData = this.inputDataService.answerData.phoneData;
-    this.selectData = this.inputDataService.answerData.selectData;
-    this.sexData = this.inputDataService.answerData.sexData;
-    this.titleData = this.inputDataService.titleData;
-    this.idData = this.inputDataService.idData;
-    this.sTimeData = this.inputDataService.sTimeData;
-    this.eTimeData = this.inputDataService.eTimeData;
-    this.explainData = this.inputDataService.explainData;
-    this.answers = this.inputDataService.answers;
-    console.log(this.answers);
+    //判斷是否為管理者查看狀態
+    this.mangerService._isAdmin$.subscribe((res) => {
+    this.isAdmin=res;});
+    //
+    this.ageData = this.inputDataService.answerData.age;
+    this.emailData = this.inputDataService.answerData.email;
+    this.nameData = this.inputDataService.answerData.name;
+    this.phoneData = this.inputDataService.answerData.phone;
+    this.cityData = this.inputDataService.answerData.city;
+    this.sexData = this.inputDataService.answerData.sex;
+    this.titleData = this.inputDataService.answerData.title;
+    this.idData = this.inputDataService.answerData.id;
+    this.sTimeData = this.inputDataService.answerData.sTime;
+    this.eTimeData = this.inputDataService.answerData.eTime;
+    this.explainData = this.inputDataService.answerData.explain;
+    this.answers = this.inputDataService.answerData.questArray;
   }
   //上一頁
   goBack() {
-    this.inputDataService.answerData.ageData = this.ageData;
-    this.inputDataService.answerData.emailData = this.emailData;
-    this.inputDataService.answerData.nameData = this.nameData;
-    this.inputDataService.answerData.phoneData = this.phoneData;
-    this.inputDataService.answerData.selectData = this.selectData;
-    this.inputDataService.answerData.sexData = this.sexData;
-    this.inputDataService.titleData = this.titleData;
-    this.inputDataService.idData = this.idData;
-    this.inputDataService.sTimeData = this.sTimeData;
-    this.inputDataService.eTimeData = this.eTimeData;
-    this.inputDataService.explainData = this.explainData;
-    this.inputDataService.answers = this.answers;
+    this.inputDataService.answerData.age = this.ageData;
+    this.inputDataService.answerData.email = this.emailData;
+    this.inputDataService.answerData.name = this.nameData;
+    this.inputDataService.answerData.phone = this.phoneData;
+    this.inputDataService.answerData.city = this.cityData;
+    this.inputDataService.answerData.sex = this.sexData;
+    this.inputDataService.answerData.title = this.titleData;
+    this.inputDataService.answerData.id = this.idData;
+    this.inputDataService.answerData.sTime = this.sTimeData;
+    this.inputDataService.answerData.eTime = this.eTimeData;
+    this.inputDataService.answerData.explain = this.explainData;
+    this.inputDataService.answerData.questArray = this.answers;
+  }
+
+  //回饋上一頁
+  previewBack(){
+    this.inputDataService.answerData=null;
   }
 }

@@ -1,1 +1,75 @@
-<p>manger-input works!</p>
+<div class="container">
+  <!-- 區塊一：問卷基本資訊 -->
+  <div class="basic-info">
+    <h2>問卷基本資訊</h2>
+    <div class="form-group">
+      <label for="title">問卷名稱</label>
+      <input type="text" id="title" [(ngModel)]="questionnaire.title" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="startDate">開始時間</label>
+      <input type="date" id="sTime" [(ngModel)]="questionnaire.sTime" class="form-control" max={{questionnaire.eTime}} min={{today}}>
+    </div>
+    <div class="form-group">
+      <label for="endDate">結束時間</label>
+      <input type="date" id="eTime" [(ngModel)]="questionnaire.eTime" class="form-control" min={{questionnaire.sTime}}  [disabled]="!questionnaire.sTime" [title]="!questionnaire.sTime ? '請先填選開始日期' : ''">
+    </div>
+    <div class="form-group">
+      <label for="explain">問卷簡介</label>
+      <textarea id="explain" [(ngModel)]="questionnaire.explain" class="form-control" rows="3"></textarea>
+    </div>
+  </div>
+
+  <!-- 區塊二：問題設定 -->
+  <div class="questions-section">
+    <h2>問題設定</h2>
+    <button (click)="addQuestion()" class="btn btn-primary">新增問題</button>
+
+    @for(question of questionnaire.questArray; track $index) {
+    <div class="question-item">
+      <div class="question-header">
+        <h3>問題 {{$index + 1}}</h3>
+        <div class="form-type">
+          <label>題型</label>
+          <select [(ngModel)]="question.type" class="form-select">
+            <option value="Q">單選題</option>
+            <option value="M">多選題</option>
+            <option value="T">文字題</option>
+          </select>
+        </div>
+        <div class="form-type">
+          <label>是否必填</label>
+          <mat-slide-toggle [(ngModel)]="question.need" color="primary">
+            {{ question.need ? '必填' : '非必填' }}
+          </mat-slide-toggle>
+        </div>
+        <mat-icon fontIcon="delete" (click)="removeQuestion($index)"></mat-icon>
+      </div>
+      <div class="form-group">
+        <label>題目</label>
+        <input type="text" [(ngModel)]="question.questName" class="form-control">
+      </div>
+      <!-- 選項區域（僅單選/多選題） -->
+      @if(question.type !== 'T') {
+        <div class="option-tiltle">
+        <label>選項</label>
+        </div>
+      @for(option of question.options; track $index) {
+      <div class="option-item">
+        <input type="text" [(ngModel)]="option.optionName" class="form-control" placeholder="選項內容">
+        <mat-icon fontIcon="close" (click)="removeOption(question, $index)"></mat-icon>
+      </div>
+      }
+      <button (click)="addOption(question)" class="btn btn-secondary">新增選項</button>
+      }
+    </div>
+    }
+  </div>
+
+
+  <!-- 儲存按鈕 -->
+  <div class="actions">
+    <button (click)="goback()" class="btn btn-cancel">取消</button>
+    <button (click)="saveQuestionnaire()" class="btn btn-success">預覽</button>
+  </div>
+</div>

@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { InputDataService } from '../@services/input-data.service';
+import { MangerService } from './../@services/manger.service';
 
 @Component({
   selector: 'app-user-input',
@@ -10,7 +11,7 @@ import { InputDataService } from '../@services/input-data.service';
   styleUrl: './user-input.component.scss'
 })
 export class UserInputComponent {
-  constructor(private inputDataService: InputDataService) { }
+  constructor(private inputDataService: InputDataService, private router: Router,private mangerService:MangerService) { }
   quest = {
     id: 1,
     title: 'JAVA前端課程意見回饋',
@@ -20,7 +21,7 @@ export class UserInputComponent {
     questArray: [
       {
         questId: 1,
-        need: true,
+        need: false,
         exist: true,
         questName: '您對本次 JAVA 前端課程的整體滿意度為何？',
         type: 'Q',
@@ -49,7 +50,7 @@ export class UserInputComponent {
       },
       {
         questId: 3,
-        need: true,
+        need: false,
         exist: true,
         questName: '您覺得本課程中最有幫助的部分是哪些？（可複選）',
         type: 'M',
@@ -77,7 +78,7 @@ export class UserInputComponent {
       },
       {
         questId: 5,
-        need: true,
+        need: false,
         exist: true,
         questName: '您覺得本課程最值得保留的優點是什麼？',
         type: 'T',
@@ -93,47 +94,56 @@ export class UserInputComponent {
       },
     ]
   };
-  selectData: string = '';
+  cityData: string = '';
   nameData: string = '';
   phoneData: string = '';
   emailData: string = '';
   ageData: number = 0;
   sexData: string = '';
-  answers: any[] = [];  // 存放使用者選擇的答案
-  radioAnswer: string = ''; //單選答案
-  textanswer: string = ''; //文字答案
-  boxBollen !: boolean; //多選判斷
   idData !: number;
   titleData: string = '';
   sTimeData: string = '';
   eTimeData: string = '';
   explainData: string = '';
+  answers: any[] = [];  // 存放使用者選擇的答案
+  radioAnswer: string = ''; //單選答案
+  textanswer: string = ''; //文字答案
+  boxBollen !: boolean; //多選判斷
+  isAdmin !: boolean; //是否為管理者
+
+
 
   ngOnInit() {
-    this.idData = this.quest.id;
-    this.titleData = this.quest.title;
-    this.sTimeData = this.quest.sTime;
-    this.eTimeData = this.quest.eTime;
-    this.explainData = this.quest.explain;
-    //判斷有沒有填過資料，如果沒有就帶入方法
-    if(!this.inputDataService.answers){
-    this.tidyQuestArray();
-    }else{
-    //如果有傳東西回來
-    this.ageData = this.inputDataService.answerData.ageData;
-    this.emailData = this.inputDataService.answerData.emailData;
-    this.nameData = this.inputDataService.answerData.nameData;
-    this.phoneData = this.inputDataService.answerData.phoneData;
-    this.selectData = this.inputDataService.answerData.selectData;
-    this.sexData = this.inputDataService.answerData.sexData;
-    this.titleData = this.inputDataService.titleData;
-    this.idData = this.inputDataService.idData;
-    this.sTimeData = this.inputDataService.sTimeData;
-    this.eTimeData = this.inputDataService.eTimeData;
-    this.explainData = this.inputDataService.explainData;
-    this.answers = this.inputDataService.answers;
+    //判斷是否為管理者
+    this.mangerService._isAdmin$.subscribe((res) => {
+    this.isAdmin=res;});
+    //判斷有沒有填過資料
+    if (!this.inputDataService.answerData) {
+      this.tidyQuestArray();
+      //帶入預設題目
+      this.idData = this.quest.id;
+      this.titleData = this.quest.title;
+      this.sTimeData = this.quest.sTime;
+      this.eTimeData = this.quest.eTime;
+      this.explainData = this.quest.explain;
+    } else {
+      //如果有傳東西回來
+      this.ageData = this.inputDataService.answerData.age;
+      this.emailData = this.inputDataService.answerData.email;
+      this.nameData = this.inputDataService.answerData.name;
+      this.phoneData = this.inputDataService.answerData.phone;
+      this.cityData = this.inputDataService.answerData.city;
+      this.sexData = this.inputDataService.answerData.sex;
+      this.titleData = this.inputDataService.answerData.title;
+      this.idData = this.inputDataService.answerData.id;
+      this.sTimeData = this.inputDataService.answerData.sTime;
+      this.eTimeData = this.inputDataService.answerData.eTime;
+      this.explainData = this.inputDataService.answerData.explain;
+      this.answers = this.inputDataService.answerData.questArray;
     }
   }
+
+
 
   //整理假資料的資料格式
   tidyQuestArray() {
@@ -154,20 +164,90 @@ export class UserInputComponent {
 
   }
 
-  nextStep() {
-    this.inputDataService.answerData = {
-      selectData: this.selectData,
-      nameData: this.nameData,
-      phoneData: this.phoneData,
-      ageData: this.ageData,
-      sexData: this.sexData,
-      emailData: this.emailData,
+
+  //確認有沒有填寫
+  checkNeed(): boolean {
+    if (!this.nameData || !this.emailData || !this.phoneData) {
+      alert("請填寫基本資料!");
+      return false;
+    };
+    for (let needs of this.answers) {
+      if (needs.need) {
+        //單選
+        if (needs.type == "Q" && !needs.radioAnswer) {
+          alert("單選題有漏填項目!");
+          return false;
+        }
+        //多選
+        else if (needs.type == "M") {
+          let check = false;
+          for (let booleans of needs.options) {
+            if (booleans.boxBollen) {
+              check = true;
+            }
+          }
+          if (!check) {
+            alert('多選題有漏填項目!');
+            return false;
+          }
+        }
+        //文字題
+        else if (needs.type == "T" && !needs.textAnswer) {
+          alert("開放題有漏填項目!");
+          return false;
+        }
+      };
     }
-    this.inputDataService.answers = this.answers;
-    this.inputDataService.idData = this.idData;
-    this.inputDataService.titleData = this.titleData;
-    this.inputDataService.sTimeData = this.sTimeData;
-    this.inputDataService.eTimeData = this.eTimeData;
-    this.inputDataService.explainData = this.explainData;
+    return true;
   }
+
+  //下一頁
+  nextStep() {
+    if (this.checkNeed()) {
+      this.inputDataService.answerData = {
+        city: this.cityData,
+        name: this.nameData,
+        phone: this.phoneData,
+        age: this.ageData,
+        sex: this.sexData,
+        email: this.emailData,
+        questArray: this.answers,
+        id: this.idData,
+        title: this.titleData,
+        sTime: this.sTimeData,
+        eTime: this.eTimeData,
+        explain: this.explainData,
+      }
+      this.router.navigate(['/user-confirm']);
+    }
+  }
+
+  //管理者區域
+  saveData(){
+    this.inputDataService.answerData=null;
+  }
+
+  publish(){
+    this.inputDataService.answerData=null;
+  }
+
+  goBack(){
+    this.inputDataService.answerData.age = this.ageData;
+    this.inputDataService.answerData.email = this.emailData;
+    this.inputDataService.answerData.name = this.nameData;
+    this.inputDataService.answerData.phone = this.phoneData;
+    this.inputDataService.answerData.city = this.cityData;
+    this.inputDataService.answerData.sex = this.sexData;
+    this.inputDataService.answerData.title = this.titleData;
+    this.inputDataService.answerData.id = this.idData;
+    this.inputDataService.answerData.sTime = this.sTimeData;
+    this.inputDataService.answerData.eTime = this.eTimeData;
+    this.inputDataService.answerData.explain = this.explainData;
+    this.inputDataService.answerData.questArray = this.answers;
+  }
+
+
+
+
+
 }

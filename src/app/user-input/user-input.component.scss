@@ -62,7 +62,7 @@
   .form-group {
     position: relative;
 
-    &.required label::after {
+    &.required label::before {
       content: '*';
       color: red;
       margin-left: 4px;
@@ -225,6 +225,15 @@
 
         &:hover {
           background-color: darken(#8B4513, 10%);
+        }
+      }
+
+      &.btn-save {
+        background-color: #bc574b;
+        color: white;
+
+        &:hover {
+          background-color: darken(#9c443a, 10%);
         }
       }
     }
