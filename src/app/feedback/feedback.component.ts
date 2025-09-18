@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,HostListener } from '@angular/core';
 import { InputDataService } from '../@services/input-data.service';
 import { Router } from '@angular/router';
 
@@ -13,20 +13,22 @@ export class FeedbackComponent {
     private inputDataService: InputDataService,
     private router: Router,) { }
 
+  //假回饋資料
   questArray = [
     { questName: '小珈', questTime: '2025/11/13 17:35' },
     { questName: 'Allen', questTime: '2025/11/02 07:15' },
     { questName: '公主', questTime: '2025/11/30 12:35' },
   ]
 
+  //假資料+帶入確認頁面
   goPreview() {
-    this.inputDataService.answerData={
-      name:"小珈",
-      city:"台北市",
-      age:18,
-      sex:"女",
-      phone:"0983458001",
-      email:"kelly19990730@gmail.com",
+    this.inputDataService.answerData = {
+      name: "小珈",
+      city: "台北市",
+      age: 18,
+      sex: "女",
+      phone: "0983458001",
+      email: "kelly19990730@gmail.com",
       id: 1,
       title: 'UI/UX 設計滿意度調查',
       sTime: '2025-09-15',
@@ -41,11 +43,11 @@ export class FeedbackComponent {
           questName: '您對整體 UI/UX 設計的滿意度為何？',
           type: 'Q',
           options: [
-            { optionName: '非常不滿意', code: 'A' ,boxBollen: false},
-            { optionName: '不滿意', code: 'B', boxBollen: false},
+            { optionName: '非常不滿意', code: 'A', boxBollen: false },
+            { optionName: '不滿意', code: 'B', boxBollen: false },
             { optionName: '普通', code: 'C', boxBollen: false },
             { optionName: '滿意', code: 'D', boxBollen: false },
-            { optionName: '非常滿意', code: 'E' , boxBollen: false},
+            { optionName: '非常滿意', code: 'E', boxBollen: false },
           ],
           radioAnswer: 'D', // 假答案
           textAnswer: '',
@@ -57,10 +59,10 @@ export class FeedbackComponent {
           questName: '您覺得介面設計的清晰度與易用性如何？',
           type: 'Q',
           options: [
-            { optionName: '非常差', code: 'A', boxBollen: false},
+            { optionName: '非常差', code: 'A', boxBollen: false },
             { optionName: '差', code: 'B', boxBollen: false },
-            { optionName: '普通', code: 'C' , boxBollen: false},
-            { optionName: '好', code: 'D' , boxBollen: false},
+            { optionName: '普通', code: 'C', boxBollen: false },
+            { optionName: '好', code: 'D', boxBollen: false },
             { optionName: '非常好', code: 'E', boxBollen: false },
           ],
           radioAnswer: 'E', // 假答案
@@ -75,10 +77,10 @@ export class FeedbackComponent {
           type: 'M',
           options: [
             { optionName: '介面排版與視覺設計', code: 'A', boxBollen: false },
-            { optionName: '操作流程與互動體驗', code: 'B', boxBollen: true},
+            { optionName: '操作流程與互動體驗', code: 'B', boxBollen: true },
             { optionName: '功能完整性', code: 'C', boxBollen: false },
             { optionName: '資訊呈現的清晰度', code: 'D', boxBollen: true },
-            { optionName: '響應速度與效能', code: 'E' , boxBollen: false},
+            { optionName: '響應速度與效能', code: 'E', boxBollen: false },
           ],
           radioAnswer: '',
           textAnswer: '',
@@ -94,8 +96,8 @@ export class FeedbackComponent {
             { optionName: '更多一致性的設計風格', code: 'A', boxBollen: false },
             { optionName: '更直覺的操作流程', code: 'B', boxBollen: true },
             { optionName: '更佳的行動裝置體驗', code: 'C', boxBollen: true },
-            { optionName: '色彩與字體搭配', code: 'D' , boxBollen: false},
-            { optionName: '輔助說明（提示文字、教學指引）', code: 'E' , boxBollen: true},
+            { optionName: '色彩與字體搭配', code: 'D', boxBollen: false },
+            { optionName: '輔助說明（提示文字、教學指引）', code: 'E', boxBollen: true },
           ],
           radioAnswer: '',
           textAnswer: '',
@@ -125,10 +127,19 @@ export class FeedbackComponent {
     this.router.navigate(['/user-confirm']);
   }
 
+  //返回上一頁
   goBack() {
     this.router.navigate(['/user-list']);
   }
+  //查看統計
   goStatistics() {
     this.router.navigate(['/user-statistics']);
+  }
+
+  //監聽瀏覽器後退
+  @HostListener('window:popstate', ['$event'])
+  onPopState(event: any) {
+    // 清空 answerData
+    this.inputDataService.answerData = null;
   }
 }

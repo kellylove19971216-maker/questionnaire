@@ -30,7 +30,19 @@
     padding-bottom: 0.5rem;
     border-bottom: 2px solid #8B4513;
   }
+
+  mat-icon {
+    font-size: 30px; // 圖示大小
+    cursor: pointer; // 滑鼠手指
+    transition: color 0.2s;
+
+    &:hover {
+      color: #212121; // 滑過顏色變深
+    }
+  }
 }
+
+
 
 /* 表單元素 */
 .form-group {
@@ -120,9 +132,10 @@
 }
 
 /* 選項區域 */
-.option-tiltle{
+.option-tiltle {
   margin-top: 20px;
 }
+
 .option-item {
   margin-top: 1rem;
   display: flex;
@@ -165,7 +178,6 @@
   font-size: 14px;
   transition: all 0.2s ease-in-out;
 
-  &.btn-primary,
   &.btn-secondary,
   &.btn-cancel {
     background-color: #6c757d;

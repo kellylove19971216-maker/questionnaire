@@ -1,4 +1,5 @@
 <div class="confirm-container">
+  <!-- 說明欄位-->
   <div class="questionnaire-info">
     <h2>{{titleData}}</h2>
     <p class="time-info">開放時間：{{sTimeData}} ~ {{eTimeData}}</p>
@@ -14,65 +15,67 @@
     <p>性別：{{sexData}}</p>
     <p>居住縣市：{{cityData}}</p>
   </div>
-<hr>
-@if(answers){
+  <hr>
+  <!-- 題目/答案欄位-->
+  @if(answers){
   <div class="questions">
     <h3>問卷內容</h3>
     @for(question of answers ;track $index){
-      <div class="question-item">
-        <p class="question-title">{{question.questId}}. {{question.questName}}</p>
+    <div class="question-item">
+      <p class="question-title">{{question.questId}}. {{question.questName}}</p>
 
-        <!-- 單選 -->
-        @if(question.type === 'Q') {
-          <div class="options">
-            @if(question.radioAnswer) {
-              @for(option of question.options ;track $index){
-                @if(question.radioAnswer == option.code){
-                  <p>{{option.optionName}}</p>
-                }
-              }
-            }@else{
-            <p>無</p>
-             }
-          </div>
+      <!-- 單選 -->
+      @if(question.type === 'Q') {
+      <div class="options">
+        @if(question.radioAnswer) {
+        @for(option of question.options ;track $index){
+        @if(question.radioAnswer == option.code){
+        <p>{{option.optionName}}</p>
         }
-
-        <!-- 多選 -->
-        @if(question.type === 'M') {
-          <div class="options">
-            @if(question.need) {
-              @for(option of question.options ;track $index){
-                @if(option.boxBollen == true){
-                  <p>{{option.optionName}}</p>
-                }
-              }
-            }@else{
-            <p>無</p>
-             }
-          </div>
         }
-
-       <!-- 多選 -->
-        @if(question.type === 'T') {
-          <div class="options">
-            @if(question.textAnswer) {
-                  <p>{{question.textAnswer}}</p>
-            }@else{
-            <p>無</p>
-             }
-          </div>
+        }@else{
+        <p>無</p>
         }
       </div>
+      }
+
+      <!-- 多選 -->
+      @if(question.type === 'M') {
+      <div class="options">
+        @if(question.need) {
+        @for(option of question.options ;track $index){
+        @if(option.boxBollen == true){
+        <p>{{option.optionName}}</p>
+        }
+        }
+        }@else{
+        <p>無</p>
+        }
+      </div>
+      }
+
+      <!-- 多選 -->
+      @if(question.type === 'T') {
+      <div class="options">
+        @if(question.textAnswer) {
+        <p>{{question.textAnswer}}</p>
+        }@else{
+        <p>無</p>
+        }
+      </div>
+      }
+    </div>
     }
   </div>
-}
+  }
 
+  <!-- 按鈕區域-->
   <div class="button-group">
     @if(isAdmin){
     <button (click)="previewBack()" routerLink="/feedback">上一頁</button>
     }@else {
     <button (click)="goBack()" routerLink="/user-input">返回修改</button>
-    <button routerLink="/user-list">確認送出</button>
+    <button (click)="confirmOK()" routerLink="/user-list">確認送出</button>
     }
   </div>
 </div>

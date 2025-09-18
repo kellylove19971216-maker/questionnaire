@@ -1,21 +1,24 @@
 <div class="background">
+  <!-- 說明欄 -->
   <div class="questionnaire-info">
     <h2>UI/UX設計滿意度調查</h2>
     <p class="time-info">開放時間：2025-07-15 ~ 2025-08-15 </p>
     <p class="description">為了持續優化我們的產品與服務，我們設計了這份「UI/UX 設計滿意度調查」。本問卷將蒐集您對介面設計（UI）與使用體驗（UX）的意見與回饋，內容涵蓋版面設計、操作便利性以及整體感受。
     </p>
   </div>
+<!-- 統計圖表 -->
   <div class="background1">
     @for(chart of chartArray.quest ;track $index){
+    <!-- 多選/單選題-->
     @if (chart.type != 'T') {
     <div>
       <h3>{{ chart.label }}</h3>
     </div>
-
     <div class="flexChart">
       <div class="canvasStyle">
         <canvas id={{chart.id}}></canvas>
       </div>
+      <!-- 文字顯示數據-->
       <div class="canvasData">
         @for(labelsName of chart.labels ;track $index){
         <h5>{{chart.labels[$index]}}
@@ -25,6 +28,7 @@
       </div>
     </div>
     }
+    <!-- 文字題-->
     @if (chart.type === 'T') {
     <div class="dataText">
       <h3>{{ chart.label }}</h3>

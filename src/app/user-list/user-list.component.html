@@ -1,17 +1,37 @@
 <div class="background1">
-  <!-- 日期選擇器-->
+
+  <!-- 搜尋欄位-->
   <div class="search">
+
+     <!-- 即時搜尋-->
+    <div><span>即時查詢：</span><input (keyup)="changeInput($event)" placeholder="請輸入欲搜尋之問卷名稱" [(ngModel)]="searchData"></div>
+
+    <!-- 開始時間-->
     <div>
-      <span>即時查詢：</span><input (keyup)="changeInput($event)" placeholder="請輸入欲搜尋之問卷名稱" [(ngModel)]="searchData">
+      <span>問卷開始時間：</span>
+      <input type="date"
+      [(ngModel)]="chooseDateS"
+      [max]="chooseDateE"
+      [min]="today">
     </div>
-    <div>
-      <span>問卷開始時間：</span><input type="date" tooltip="TEST" [(ngModel)]="chooseDateS" max={{chooseDateE}} min={{today}}>
-    </div>
-    <span>迄</span><input type="date" [(ngModel)]="chooseDateE" min={{chooseDateS}} [disabled]="!chooseDateS" [title]="!chooseDateS ? '請先填選開始日期' : ''">
-    <button class="iconList">搜尋</button>
-    <div class="header-cell">重置<mat-icon (click)="reset()" fontIcon="sync" class="iconList"></mat-icon></div>
+
+    <!-- 結束時間-->
+      <span>迄</span>
+      <input type="date"
+      [(ngModel)]="chooseDateE"
+      [min]="chooseDateS"
+      [disabled]="!chooseDateS"
+      [title]="!chooseDateS ? '請先填選開始日期' : ''">
+
+      <!-- 搜尋按鈕-->
+      <button class="iconList">搜尋</button>
+
+      <!-- 重置按鈕-->
+      <div class="header-cell">重置<mat-icon (click)="reset()" fontIcon="sync" class="iconList"></mat-icon></div>
   </div>
-  <!-- 表格 -->
+
+
+  <!-- 表格欄位 -->
   <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource">
 
@@ -85,6 +105,7 @@
       <ng-container matColumnDef="result">
         <th mat-header-cell *matHeaderCellDef>操作介面</th>
         <td mat-cell *matCellDef="let element">
+
           <!-- 使用者區 -->
           @if (!isAdmin) {
           <div class="name-manger">
@@ -101,6 +122,7 @@
             }
           </div>
           }
+
           <!-- 管理者區 -->
           @else {
           <div class="name-manger">
@@ -131,7 +153,8 @@
     </mat-paginator>
   </div>
 </div>
-<!-- 管理者區 -->
+
+<!-- 管理者側邊欄位 -->
 @if(isAdmin){
 <div class="mangerIcon">
   <mat-icon fontIcon="delete" (click)="del()"></mat-icon>

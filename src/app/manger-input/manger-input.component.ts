@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,HostListener } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -55,7 +55,9 @@ export class MangerInputComponent {
   today!: string;
 
 
-  constructor(private inputDataService: InputDataService, private router: Router,) { }
+  constructor(
+    private inputDataService: InputDataService,
+    private router: Router,) { }
 
 
   ngOnInit(): void {
@@ -75,7 +77,6 @@ export class MangerInputComponent {
     this.questionnaire.eTime = this.inputDataService.answerData.eTime;
     this.questionnaire.explain = this.inputDataService.answerData.explain;
     this.questionnaire.questArray = this.inputDataService.answerData.questArray;
-    console.log(this.inputDataService.answerData.title);
   }
 
 
@@ -189,5 +190,12 @@ export class MangerInputComponent {
   goback() {
     this.inputDataService.answerData = null;
     this.router.navigate(['/user-list']);
+  }
+
+  //監聽瀏覽器後退
+  @HostListener('window:popstate', ['$event'])
+  onPopState(event: any) {
+    // 清空 answerData
+    this.inputDataService.answerData = null;
   }
 }
