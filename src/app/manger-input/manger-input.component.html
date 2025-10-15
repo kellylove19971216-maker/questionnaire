@@ -4,27 +4,27 @@
     <h2>問卷基本資訊</h2>
 
     <!-- 問卷名稱-->
-    <div class="form-group">
+    <div class="form-group required">
       <label for="title">問卷名稱</label>
       <input type="text" id="title" [(ngModel)]="questionnaire.title" class="form-control">
     </div>
 
     <!-- 開始時間-->
-    <div class="form-group">
+    <div class="form-group required">
       <label for="startDate">開始時間</label>
       <input type="date" id="sTime" class="form-control" [(ngModel)]="questionnaire.sTime" [max]="questionnaire.eTime"
         [min]="today">
     </div>
 
     <!-- 結束時間-->
-    <div class="form-group">
+    <div class="form-group required">
       <label for="endDate">結束時間</label>
       <input type="date" id="eTime" class="form-control" [title]="!questionnaire.sTime ? '請先填選開始日期' : ''"
         [disabled]="!questionnaire.sTime" [(ngModel)]="questionnaire.eTime" [min]="questionnaire.sTime">
     </div>
 
     <!-- 問卷簡介-->
-    <div class="form-group">
+    <div class="form-group required">
       <label for="explain">問卷簡介</label>
       <textarea id="explain" [(ngModel)]="questionnaire.explain" class="form-control" rows="3"></textarea>
     </div>

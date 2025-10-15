@@ -1,57 +1,53 @@
-.container {
-  max-width: 900px;
-  margin: 3rem auto;
-  padding: 0 1.5rem;
-  font-family: 'Microsoft JhengHei', Arial, sans-serif;
-  background-color: #f4f4f4;
-}
-
-/* 基本資訊、問題區塊 */
+/* 標題區塊 */
 .basic-info,
 .questions-section {
-  background-color: #ffffff;
+  background-color: #f0ead6;
   border-radius: 12px;
   padding: 2rem;
   margin-bottom: 2.5rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.08);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.08);
   }
 
   h2 {
-    color: #8B4513;
+    color: #966642;
     margin-bottom: 2rem;
     font-size: 1.8rem;
     font-weight: 600;
     position: relative;
     padding-bottom: 0.5rem;
-    border-bottom: 2px solid #8B4513;
+    border-bottom: 2px solid #966642;
   }
 
   mat-icon {
-    font-size: 30px; // 圖示大小
-    cursor: pointer; // 滑鼠手指
+    font-size: 30px;
+    cursor: pointer;
     transition: color 0.2s;
 
     &:hover {
-      color: #212121; // 滑過顏色變深
+      color: #cdb096;
     }
   }
 }
-
-
 
 /* 表單元素 */
 .form-group {
   margin-top: 20px;
 
+  &.required label::before {
+    content: '*';
+    color: red;
+    margin-right: 4px;
+  }
+
   .form-control {
     width: 100%;
     padding: 8px 10px;
-    border: 1px solid #ddd;
+    border: 1px solid #cdb096;
     border-radius: 4px;
     font-size: 14px;
     transition: border-color 0.3s, box-shadow 0.3s;
@@ -59,8 +55,8 @@
 
     &:focus {
       outline: none;
-      border-color: #8B4513;
-      box-shadow: 0 0 0 2px rgba(139, 69, 19, 0.2);
+      border-color: #966642;
+      box-shadow: 0 0 0 2px rgba(150, 102, 66, 0.2);
     }
   }
 }
@@ -68,13 +64,10 @@
 .form-type {
   display: flex;
   align-items: center;
-  /* 垂直置中 */
   gap: 10px;
-  /* label 和 select 間距 */
 
   label {
     width: 75px;
-    /* 固定寬度讓文字完整顯示 */
     font-size: 16px;
     font-weight: 500;
     color: #333;
@@ -83,27 +76,27 @@
   .form-select {
     width: 100%;
     padding: 10px 10px;
-    border: 2px solid #ddd;
+    border: 2px solid #cdb096;
     border-radius: 7px;
     font-size: 15px;
     transition: border-color 0.3s, box-shadow 0.3s;
 
     &:focus {
       outline: none;
-      border-color: #949494;
-      box-shadow: 0 0 0 2px rgba(139, 69, 19, 0.2);
+      border-color: #966642;
+      box-shadow: 0 0 0 2px rgba(150, 102, 66, 0.2);
     }
   }
 }
 
 /* 單題區塊 */
 .question-item {
-  background-color: #f9f9f9;
+  background-color: #f0ead6;
   border-radius: 5px;
   padding: 15px;
   margin-bottom: 20px;
   margin-top: 20px;
-  border: 1px solid #eee;
+  border: 1px solid #cdb096;
 
   .question-header {
     display: flex;
@@ -114,20 +107,19 @@
     h3 {
       margin: 0;
       font-size: 20px;
-      color: #666;
+      color: #966642;
     }
 
     mat-icon {
-      font-size: 30px; // 圖示大小
-      cursor: pointer; // 滑鼠手指
-      color: #ea402d; // 紅色，表示刪除
+      font-size: 30px;
+      cursor: pointer;
+      color: #ea402d;
       transition: color 0.2s;
 
       &:hover {
-        color: #9c443a; // 滑過顏色變深
+        color: #9c443a;
       }
     }
-
   }
 }
 
@@ -145,26 +137,26 @@
   .form-control {
     width: 50%;
     padding: 8px 10px;
-    border: 1px solid #ddd;
+    border: 1px solid #cdb096;
     border-radius: 4px;
     font-size: 14px;
     transition: border-color 0.3s, box-shadow 0.3s;
 
     &:focus {
       outline: none;
-      border-color: #8B4513;
-      box-shadow: 0 0 0 2px rgba(139, 69, 19, 0.2);
+      border-color: #966642;
+      box-shadow: 0 0 0 2px rgba(150, 102, 66, 0.2);
     }
   }
 
   mat-icon {
-    font-size: 30px; // 圖示大小
-    cursor: pointer; // 滑鼠手指
-    color: #2b2b2b; // 紅色，表示刪除
+    font-size: 30px;
+    cursor: pointer;
+    color: #2b2b2b;
     transition: color 0.2s;
 
     &:hover {
-      color: #212121; // 滑過顏色變深
+      color: #212121;
     }
   }
 }
@@ -179,21 +171,14 @@
   transition: all 0.2s ease-in-out;
 
   &.btn-secondary,
-  &.btn-cancel {
-    background-color: #6c757d;
-    color: white;
-
-    &:hover {
-      background-color: #5a6268;
-    }
-  }
-
+  &.btn-cancel,
   &.btn-success {
-    background-color: #8B4513;
-    color: white;
+    background-color: #cdb096;
+    color: #4b2f1a;
 
     &:hover {
-      background-color: #6f3610;
+      background-color: #966642;
+      color: #fff;
     }
   }
 }
@@ -201,7 +186,9 @@
 /* 底部操作區 */
 .actions {
   display: flex;
-  justify-content: flex-end;
+  justify-content:center;
   gap: 15px;
   margin-top: 20px;
+  margin-bottom: 20px;
 }
+

@@ -11,17 +11,25 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-    constructor( private mangerService: MangerService,private inputDataService:InputDataService) {}
-    isAdmin!:boolean;
-    //一開始進網頁時觸發
-    ngOnInit(): void {
-      this.mangerService._isAdmin$.subscribe((res) => {
-      this.isAdmin=res;
+  constructor(private mangerService: MangerService, private inputDataService: InputDataService) { }
+  isAdmin!: boolean;
+  //一開始進網頁時觸發
+  ngOnInit(): void {
+    this.mangerService._isAdmin$.subscribe((res) => {
+      this.isAdmin = res;
     });
-    }
+  }
 
-    logOut(){
-      this.mangerService.logOut();
-      this.inputDataService.answerData=null;
-    }
+  logOut() {
+    this.mangerService.logOut();
+    this.inputDataService.answerData = null;
+  }
+
+  //點圖片回頂端
+  scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'  // 平滑滾動回頂部
+    });
+  }
 }

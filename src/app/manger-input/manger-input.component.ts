@@ -1,11 +1,12 @@
-import { Component,HostListener } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { InputDataService } from '../@services/input-data.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-
+import { SendComponent } from '../dialog/send/send.component';
+import { MatDialog } from '@angular/material/dialog';
 
 interface Option {
   optionName: string; // 選項文字
@@ -53,7 +54,7 @@ export class MangerInputComponent {
 
 
   today!: string;
-
+  readonly dialog = inject(MatDialog);//dialog使用
 
   constructor(
     private inputDataService: InputDataService,
@@ -144,18 +145,50 @@ export class MangerInputComponent {
 
   //確認開的問題都有寫
   checkDone(): boolean {
+
+    // 問卷資料
     if (!this.questionnaire.title || !this.questionnaire.sTime || !this.questionnaire.eTime || !this.questionnaire.explain) {
-      alert("問卷基本資訊不能為空")
+      this.dialog.open(SendComponent, {
+        data: { message: '問卷基本資訊不能為空!' }
+      });
       return false;
     };
+
+    // 檢查是否至少有一題
+    if (!this.questionnaire.questArray || this.questionnaire.questArray.length === 0) {
+      this.dialog.open(SendComponent, {
+        data: { message: '請至少新增一個問題!' }
+      });
+      return false;
+    }
+
+    // 題目內部
     for (let need of this.questionnaire.questArray) {
+
+      //題目名稱不可空
       if (!need.questName) {
-        alert("問題名稱不能為空")
+        this.dialog.open(SendComponent, {
+          data: { message: '題目不能為空!' }
+        });
         return false;
       }
+
+      // 非文字題必須有至少一個選項
+      if (need.type !== 'T') {
+        if (!need.options || need.options.length === 0) {
+          this.dialog.open(SendComponent, {
+            data: { message: `題目 "${need.questName}" 至少需要一個選項!` }
+          });
+          return false;
+        }
+      }
+
+      //選項名稱不可空
       for (let opt of need.options) {
         if (!opt.optionName) {
-          alert("選項名稱不能為空")
+          this.dialog.open(SendComponent, {
+            data: { message: '選項內容不能為空!' }
+          });
           return false;
         }
       }

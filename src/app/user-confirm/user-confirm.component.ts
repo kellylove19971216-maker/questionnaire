@@ -64,13 +64,14 @@ export class UserConfirmComponent {
     this.inputDataService.answerData.explain = this.explainData;
     this.inputDataService.answerData.questArray = this.answers;
   }
-  //確認送出
-  confirmOK(){
-    this.inputDataService.answerData=null;
-  }
 
   //管理者回饋上一頁
   previewBack(){
     this.inputDataService.answerData=null;
+  }
+
+  //確認送出
+  confirmOK() {
+    this.inputDataService.answerData = null;
   }
 }

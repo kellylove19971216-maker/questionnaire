@@ -5,7 +5,7 @@
 
   h1 {
     text-align: center;
-    color: #5c3a21;
+    color: #966642;
     /* 深咖啡 */
     margin-bottom: 20px;
     font-size: 2rem;
@@ -20,7 +20,7 @@
 /* 表格樣式 */
 table {
   border-collapse: collapse;
-  border: 2px solid #a97458;
+  border: 2px solid #966642;
   /* 中咖啡框線 */
   font-family: sans-serif;
   font-size: 0.9rem;
@@ -28,7 +28,7 @@ table {
   width: 100%;
   box-shadow: 0 2px 6px rgba(92, 58, 33, 0.2);
   /* 表格陰影 */
-  background-color: #fffaf6;
+  background-color: #f0ead6;
   /* 米白底 */
   border-radius: 8px;
   overflow: hidden;
@@ -41,7 +41,7 @@ table {
 
 thead,
 tfoot {
-  background-color: #e7d3c2;
+  background-color: #cdb096;
   /* 淡咖啡背景 */
   color: #3d2a1c;
   /* 深咖啡字體 */
@@ -50,7 +50,7 @@ tfoot {
 
 th,
 td {
-  border: 1px solid #c9a78a;
+  border: 1px solid #966642;
   /* 淺咖啡邊框 */
   padding: 10px 12px;
   text-align: center;
@@ -58,13 +58,8 @@ td {
   word-break: break-all;
 }
 
-tbody tr:nth-child(even) {
-  background-color: #f9f2ed;
-  /* 偶數列淡背景 */
-}
-
 tbody tr:hover {
-  background-color: #f1e3d6;
+  background-color: #cdb096;
   /* 滑過列變色 */
   transition: background-color 0.3s ease;
 }
@@ -74,7 +69,7 @@ td:last-of-type {
 }
 
 .urlCss {
-  color: #7b3f00;
+  color: #966642;
   /* 咖啡色連結 */
   text-decoration: underline;
   cursor: pointer;
@@ -100,11 +95,11 @@ td:last-of-type {
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s;
-    background-color: #6c584c;
+    background-color: #966642;
     color: white;
 
     &:hover {
-      background-color: darken(#6c757d, 10%);
+      background-color: darken(#966642, 10%);
     }
   }
 }

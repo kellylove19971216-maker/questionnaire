@@ -1,0 +1,16 @@
+<div class="background">
+
+  <!-- dialog標題 -->
+  <div class="diaTitle" mat-dialog-title>請落實填寫資料</div>
+  <div><hr class="custom-hr"></div>
+
+  <!-- dialog內容 -->
+  <mat-dialog-content>
+    <p>提示：{{ data.message }}</p>
+  </mat-dialog-content>
+
+  <!-- dialog按鈕 -->
+  <mat-dialog-actions>
+    <button class="btnCss" (click)="onClick()">我知道了</button>
+  </mat-dialog-actions>
+</div>

@@ -40,3 +40,40 @@ input[type="password"]::-ms-reveal {
 input[type="password"]::-ms-clear {
   display: none;
 }
+
+.person-container {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  cursor: pointer;
+  text-align: center;
+
+  .person-right {
+    width: 180px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  .tooltip {
+    position: absolute;
+    bottom: 110%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #966642;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 13px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+
+  &:hover .person-right {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+
+  &:hover .tooltip {
+    opacity: 1;
+  }
+}

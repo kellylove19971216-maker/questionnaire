@@ -1,4 +1,5 @@
 .background1 {
+  /* 容器區塊1 */
   margin: 1rem 0;
   font-family: 'Microsoft JhengHei', Arial, sans-serif;
 }
@@ -13,10 +14,11 @@
   border: 2px solid #8b6f47;
   border-radius: 12px;
   padding: 20px 5%;
-  background-color: #fdf6f0;
+  background-color: #f0ead6;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
 
+/* 搜尋欄位內的 input */
 .search input {
   width: 180px;
   height: 28px;
@@ -26,23 +28,27 @@
   font-size: 14px;
 }
 
+/* 搜尋欄位按鈕 */
 .search button {
   width: 100px;
   height: 30px;
-  background: linear-gradient(135deg, #a47551, #8b5e34);
-  color: #fff;
-  border: none;
+  background: #cdb096;
+  color: #4b2f1a;
+  border: 2px solid #8b6f47;
   border-radius: 6px;
   cursor: pointer;
   font-weight: bold;
   transition: all 0.3s ease;
 }
 
+/* 搜尋按鈕 hover */
 .search button:hover {
-  background: linear-gradient(135deg, #b5835a, #9c6b3f);
+  background: #f0ead6;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
 }
 
-/* 表格樣式 */
+/* 表格容器樣式 */
 .mat-elevation-z8 {
   margin-top: 20px;
   border-radius: 12px;
@@ -50,11 +56,12 @@
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
 }
 
+/* 表格背景 */
 table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
-  background-color: #fdf6f0;
+  background-color: #f0ead6;
 }
 
 /* 各欄位寬度 */
@@ -93,16 +100,19 @@ table {
   color: #4b2f1a;
 }
 
+/* 表格 header 背景與邊框 */
 .mat-mdc-table th.mat-mdc-header-cell {
-  background-color: #cfab87;
+  background-color: #cdb096;
   font-weight: bold;
   border-bottom: 2px solid #8b6f47;
 }
 
+/* 表格 cell 邊框 */
 .mat-mdc-table td.mat-mdc-cell {
   border-bottom: 1px solid #e1c9a1;
 }
 
+/* 表格 header cell 內 flex 排版 */
 .header-cell {
   display: flex;
   gap: 5px;
@@ -110,14 +120,15 @@ table {
   justify-content: center;
 }
 
+/* 表格列 hover 背景 */
 .mat-mdc-table .mat-mdc-row:hover {
-  background-color: #f7e7d5;
+  background-color: #cdb096;
   transition: background 0.3s;
 }
 
 /* header 裡的 select */
 .mat-mdc-table th.mat-mdc-header-cell select {
-  background-color: #cfab87;
+  background-color: #cdb096;
   color: #4b2f1a;
   font-weight: bold;
   font-size: 14px;
@@ -127,43 +138,46 @@ table {
   cursor: pointer;
 }
 
+/* header select focus */
 .mat-mdc-table th.mat-mdc-header-cell select:focus {
   outline: none;
 }
 
-/* 狀態文字 */
+/* 狀態文字共用 */
 .state-not-started,
 .state-in-progress,
 .state-ended {
   font-weight: bold;
 }
 
+/* 狀態：未開始 */
 .state-not-started {
   color: #a89f91;
 }
 
+/* 狀態：進行中 */
 .state-in-progress {
   color: #da8d56;
 }
 
+/* 狀態：已結束 */
 .state-ended {
   color: #6b3f1a;
 }
 
-/* 操作按鈕 / 管理者連結 */
+/* 操作按鈕 / 管理者連結容器 */
 .name-manger {
-display: flex;
-gap: 10px;
-justify-content: center;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
 }
-
 
 /* 單個按鈕樣式 */
 a {
   display: inline-block;
   padding: 6px 14px;
-  background: linear-gradient(135deg, #a47551, #8b5e34);
-  color: #fff;
+  background: #cdb096;
+  color: #4b2f1a;
   font-weight: bold;
   font-size: 14px;
   border-radius: 20px;
@@ -172,11 +186,11 @@ a {
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
   transition: all 0.3s ease;
 
-  :hover {
-  background: linear-gradient(135deg, #b5835a, #9c6b3f);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
-}
+  &:hover {
+    background: #f0ead6;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+  }
 }
 
 /* 管理者操作浮動按鈕 */
@@ -190,12 +204,14 @@ a {
   cursor: pointer;
 }
 
+/* 管理者圖示列表 */
 .iconList {
   cursor: pointer;
   color: #8b5e34;
   transition: color 0.3s;
 }
 
+/* 管理者圖示 hover */
 .iconList:hover {
   color: #b5835a;
 }
@@ -209,7 +225,7 @@ a {
 
 /* 分頁器 */
 .mat-mdc-paginator {
-  background-color: #fdf6f0;
+  background-color: #f0ead6;
   border-radius: 8px;
   padding: 5px 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);

@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { InputDataService } from '../@services/input-data.service';
 import { MangerService } from './../@services/manger.service';
+import { MatDialog } from '@angular/material/dialog';
+import { SendComponent } from '../dialog/send/send.component';
 
 @Component({
   selector: 'app-user-input',
@@ -11,7 +13,7 @@ import { MangerService } from './../@services/manger.service';
   styleUrl: './user-input.component.scss'
 })
 export class UserInputComponent {
-  constructor(private inputDataService: InputDataService, private router: Router,private mangerService:MangerService) { }
+  constructor(private inputDataService: InputDataService, private router: Router, private mangerService: MangerService) { }
   quest = {
     id: 1,
     title: 'JAVA前端課程意見回饋',
@@ -110,13 +112,14 @@ export class UserInputComponent {
   textanswer: string = ''; //文字答案
   boxBollen !: boolean; //多選判斷
   isAdmin !: boolean; //是否為管理者
-
+  readonly dialog = inject(MatDialog);//dialog使用
 
 
   ngOnInit() {
     //判斷是否為管理者
     this.mangerService._isAdmin$.subscribe((res) => {
-    this.isAdmin=res;});
+      this.isAdmin = res;
+    });
     //判斷有沒有填過資料
     if (!this.inputDataService.answerData) {
       this.tidyQuestArray();
@@ -164,18 +167,21 @@ export class UserInputComponent {
 
   }
 
-
   //確認有沒有填寫
   checkNeed(): boolean {
     if (!this.nameData || !this.emailData || !this.phoneData) {
-      alert("請填寫基本資料!");
+      this.dialog.open(SendComponent, {
+        data: { message: '個人資料未填寫完整!' }
+      });
       return false;
     };
     for (let needs of this.answers) {
       if (needs.need) {
         //單選
         if (needs.type == "Q" && !needs.radioAnswer) {
-          alert("單選題有漏填項目!");
+          this.dialog.open(SendComponent, {
+            data: { message: '單選題有漏填項目!' }
+          });
           return false;
         }
         //多選
@@ -187,13 +193,17 @@ export class UserInputComponent {
             }
           }
           if (!check) {
-            alert('多選題有漏填項目!');
+            this.dialog.open(SendComponent, {
+              data: { message: '多選題有漏填項目!' }
+            });
             return false;
           }
         }
         //文字題
         else if (needs.type == "T" && !needs.textAnswer) {
-          alert("開放題有漏填項目!");
+          this.dialog.open(SendComponent, {
+            data: { message: '開放題有漏填項目!' }
+          });
           return false;
         }
       };
@@ -223,15 +233,15 @@ export class UserInputComponent {
   }
 
   //管理者區域
-  saveData(){
-    this.inputDataService.answerData=null;
+  saveData() {
+    this.inputDataService.answerData = null;
   }
 
-  publish(){
-    this.inputDataService.answerData=null;
+  publish() {
+    this.inputDataService.answerData = null;
   }
 
-  goBack(){
+  goBack() {
     this.inputDataService.answerData.age = this.ageData;
     this.inputDataService.answerData.email = this.emailData;
     this.inputDataService.answerData.name = this.nameData;
