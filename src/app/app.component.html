@@ -1,8 +1,9 @@
 <!-- 頂部區域 -->
-<div class="app-container">
-  <header class="header">
+<header class="header">
+  <div class="head">
     <div class="logo">
-      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="logo-link">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="logo-link"
+        matTooltip="回到首頁" matTooltipPosition="above" [matTooltipDisabled]="false">
         <img src="writing.png" alt="動態問卷" class="logo-icon">
         <span class="logo-label">動態問卷</span>
       </a>
@@ -16,12 +17,15 @@
       <a routerLink="/log-in" routerLinkActive="active" class="nav-item">後台登入</a>
       }
     </nav>
-  </header>
-  <!-- 各分頁內部 -->
+  </div>
+</header>
+<!-- 各分頁內部 -->
+<div class="app-container">
   <main class="content">
     <router-outlet></router-outlet>
   </main>
 </div>
+
 <!-- 旁邊-->
 <div class="person-container" (click)="scrollToTop()">
   <img src="thinkRight.png" alt="人物圖" class="person-right">

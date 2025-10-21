@@ -1,13 +1,13 @@
 <div class="questionnaire-container">
   <!-- 問卷標題 -->
-  <h1 class="questionnaire-title">{{titleData}}</h1>
+  <h1 class="questionnaire-title">{{answerData.title}}</h1>
 
   <!-- 問卷開放時間 -->
-  <div class="questionnaire-period">問卷開放時間：{{sTimeData}}~{{eTimeData}}</div>
+  <div class="questionnaire-period">問卷開放時間：{{answerData.sTime}}~{{answerData.eTime}}</div>
 
   <!-- 問卷說明 -->
   <div class="questionnaire-description">
-    {{explainData}}
+    {{answerData.explain}}
   </div>
 
   <!-- 基本資料區塊 -->
@@ -16,24 +16,24 @@
     <div class="form-grid">
       <div class="form-group required">
         <label>姓名：</label>
-        <input [(ngModel)]="nameData" type="text" class="form-input">
+        <input [(ngModel)]="answerData.name" type="text" class="form-input">
       </div>
       <div class="form-group required">
         <label>電話：</label>
-        <input [(ngModel)]="phoneData" type="tel" class="form-input">
+        <input [(ngModel)]="answerData.phone" type="tel" class="form-input">
       </div>
       <div class="form-group required">
         <label>Email：</label>
-        <input [(ngModel)]="emailData" type="email" class="form-input">
+        <input [(ngModel)]="answerData.email" type="email" class="form-input">
       </div>
       <div class="form-group">
         <label>年齡：</label>
-        <input [(ngModel)]="ageData" type="number" class="form-select" min="1">
+        <input [(ngModel)]="answerData.age" type="number" class="form-select" min="1">
       </div>
       <div class="form-group">
         <label>性別：</label>
         <div class="sex-group">
-          <select [(ngModel)]="sexData" class="form-select">
+          <select [(ngModel)]="answerData.sex" class="form-select">
             <option value="">請選擇性別</option>
             <option value="男">男</option>
             <option value="女">女</option>
@@ -43,7 +43,7 @@
       </div>
       <div class="form-group">
         <label>居住縣市：</label>
-        <select [(ngModel)]="cityData" class="form-select">
+        <select [(ngModel)]="answerData.city" class="form-select">
           <option value="">請選擇居住縣市</option>
           <!-- 直轄市 -->
           <option value="臺北市">臺北市</option>
@@ -81,7 +81,7 @@
     <div class="question-block">
       <h3>一、單選題 (Single Choice)</h3>
       <div class="question">
-        @for(questData of answers;track $index){
+        @for(questData of answerData.questArray;track $index){
         <div class="radio-group">
 
       <!-- 單選題區塊 -->
@@ -107,7 +107,7 @@
       <div class="question-block">
         <h3>二、多選題 (Multiple Choice)</h3>
         <div class="question">
-          @for(questData of answers; track $index){
+          @for(questData of answerData.questArray; track $index){
           @if(questData.type == 'M'){
           <div class="radio-group">
             <p>{{questData.questId}}. {{questData.questName}}
@@ -133,7 +133,7 @@
       <div class="question-block">
         <h3>三、開放式題目 (Open-ended)</h3>
         <div class="question">
-          @for(questData of answers; track $index){
+          @for(questData of answerData.questArray; track $index){
           @if(questData.type == 'T'){
           <p>{{questData.questId}}. {{questData.questName}}
             @if (questData.need) {
@@ -153,12 +153,12 @@
   <!-- 按鈕區域 -->
   <div class="button-group">
     @if(isAdmin){
-    <button (click)="goBack()" routerLink="/manger-input" class="btn-cancel">修改</button>
-    <button  (click)="saveData()" routerLink="/user-list" class="btn-save">存檔</button>
-    <button  (click)="publish()" routerLink="/user-list" class="btn-submit">發布</button>
+    <button (click)="goBack()" routerLink="/manger-input" >修改</button>
+    <button  (click)="saveData()" routerLink="/user-list" >存檔</button>
+    <button  (click)="publish()" routerLink="/user-list" >發布</button>
     }@else {
-    <button routerLink="/user-list" routerLinkActive="active" class="btn-cancel">取消</button>
-    <button (click)="nextStep()" class="btn-submit">預覽</button>
+    <button routerLink="/user-list" routerLinkActive="active" >取消</button>
+    <button (click)="nextStep()" >預覽</button>
     }
   </div>
 </div>

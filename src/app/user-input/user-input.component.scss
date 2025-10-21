@@ -1,13 +1,13 @@
 .questionnaire-container {
-  margin: 0 auto;
-  padding: 20px;
-  font-family: 'Microsoft JhengHei', Arial, sans-serif;
-  background-color: #f4f4f4;
+  width: 100%;
+  height: auto;
+  padding: 2rem 1rem;
+
 
   // 問卷標題樣式
   .questionnaire-title {
     text-align: center;
-    color: #8B4513;
+    color: #4b2f1a;
     margin-bottom: 20px;
     font-size: 24px;
   }
@@ -15,14 +15,15 @@
   // 問卷開放時間樣式
   .questionnaire-period {
     text-align: center;
-    color: #666;
+    color: #966642;
     margin-bottom: 20px;
     font-size: 14px;
   }
 
   // 問卷說明樣式
   .questionnaire-description {
-    background-color: #fff;
+    background-color: #cdb096;
+    color: #4b2f1a;
     padding: 20px;
     margin-bottom: 30px;
     border-radius: 5px;
@@ -39,16 +40,22 @@
   }
 
   h3 {
-    color: #666;
-    margin: 20px 0;
+    color: #966642;
   }
 
   // 基本資料區塊樣式
   .basic-info-section {
-    background-color: #fff;
-    padding: 20px;
-    margin-bottom: 30px;
-    border-radius: 5px;
+    background-color: #f0ead6;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.08);
+    }
 
     .form-grid {
       display: grid;
@@ -88,7 +95,7 @@
     }
   }
 
-  .form-input{
+  .form-input {
     width: 80%;
     padding: 8px;
     border: 1px solid #ddd;
@@ -101,12 +108,12 @@
     }
   }
 
-// 性別選擇樣式
-  .sex-group{
+  // 性別選擇樣式
+  .sex-group {
     display: flex;
     gap: 10px;
 
-      label {
+    label {
       display: flex;
       align-items: center;
       gap: 8px;
@@ -119,7 +126,7 @@
     }
   }
 
-// 單選和多選組件樣式
+  // 單選和多選組件樣式
   .radio-group,
   .checkbox-group {
     display: flex;
@@ -156,10 +163,17 @@
 
   // 問卷作答區塊樣式
   .questionnaire-section {
-    background-color: #fff;
-    padding: 20px;
-    margin-bottom: 30px;
-    border-radius: 5px;
+    background-color: #f0ead6;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.08);
+    }
 
     .question-block {
       margin-bottom: 30px;
@@ -167,7 +181,6 @@
       .question {
         margin-bottom: 20px;
         padding: 15px;
-        background-color: #f9f9f9;
         border-radius: 5px;
 
         p {
@@ -203,38 +216,22 @@
     margin-top: 30px;
 
     button {
-      padding: 10px 30px;
+      padding: 8px 20px;
       border: none;
-      border-radius: 5px;
-      font-size: 16px;
+      border-radius: 4px;
       cursor: pointer;
-      transition: background-color 0.3s;
+      font-size: 14px;
+      background: #cdb096;
+      color: #4b2f1a;
+      font-weight: bold;
+      text-decoration: none;
+      box-shadow: 0 3px 8px rgb(255, 255, 255);
+      transition: all 0.3s ease;
 
-      &.btn-cancel {
-        background-color: #6c757d;
-        color: white;
-
-        &:hover {
-          background-color: darken(#6c757d, 10%);
-        }
-      }
-
-      &.btn-submit {
-        background-color: #8B4513;
-        color: white;
-
-        &:hover {
-          background-color: darken(#8B4513, 10%);
-        }
-      }
-
-      &.btn-save {
-        background-color: #bc574b;
-        color: white;
-
-        &:hover {
-          background-color: darken(#9c443a, 10%);
-        }
+      &:hover {
+        background: #f0ead6;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgb(255, 255, 255);
       }
     }
   }

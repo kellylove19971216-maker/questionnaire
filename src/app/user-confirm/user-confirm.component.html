@@ -1,26 +1,26 @@
 <div class="confirm-container">
   <!-- 說明欄位-->
   <div class="questionnaire-info">
-    <h2>{{titleData}}</h2>
-    <p class="time-info">開放時間：{{sTimeData}} ~ {{eTimeData}}</p>
-    <p class="description">{{explainData}}</p>
+    <h2>{{answerData.title}}</h2>
+    <p class="time-info">開放時間：{{answerData.sTime}} ~ {{answerData.eTime}}</p>
+    <p class="description">{{answerData.explain}}</p>
   </div>
 
   <div class="personal-info">
     <h3>基本資料</h3>
-    <p>姓名：{{nameData}}</p>
-    <p>手機：{{phoneData}}</p>
-    <p>Email：{{emailData}}</p>
-    <p>年齡：{{ageData}}</p>
-    <p>性別：{{sexData}}</p>
-    <p>居住縣市：{{cityData}}</p>
+    <p>姓名：{{answerData.name}}</p>
+    <p>手機：{{answerData.phone}}</p>
+    <p>Email：{{answerData.email}}</p>
+    <p>年齡：{{answerData.age}}</p>
+    <p>性別：{{answerData.sex}}</p>
+    <p>居住縣市：{{answerData.city}}</p>
   </div>
-  <hr>
+
   <!-- 題目/答案欄位-->
-  @if(answers){
+  @if(answerData.questArray){
   <div class="questions">
     <h3>問卷內容</h3>
-    @for(question of answers ;track $index){
+    @for(question of answerData.questArray ;track $index){
     <div class="question-item">
       <p class="question-title">{{question.questId}}. {{question.questName}}</p>
 
@@ -42,7 +42,7 @@
       <!-- 多選 -->
       @if(question.type === 'M') {
       <div class="options">
-        @if(question.need) {
+        @if(question.exist) {
         @for(option of question.options ;track $index){
         @if(option.boxBollen == true){
         <p>{{option.optionName}}</p>
@@ -54,7 +54,7 @@
       </div>
       }
 
-      <!-- 多選 -->
+      <!-- 文字 -->
       @if(question.type === 'T') {
       <div class="options">
         @if(question.textAnswer) {
@@ -75,7 +75,7 @@
     <button (click)="previewBack()" routerLink="/feedback">上一頁</button>
     }@else {
     <button (click)="goBack()" routerLink="/user-input">返回修改</button>
-    <button (click)="confirmOK()">確認送出</button>
+    <button (click)="confirmOK()" routerLink="/user-list">確認送出</button>
     }
   </div>
 </div>

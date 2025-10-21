@@ -19,8 +19,16 @@
     <!-- 結束時間-->
     <div class="form-group required">
       <label for="endDate">結束時間</label>
-      <input type="date" id="eTime" class="form-control" [title]="!questionnaire.sTime ? '請先填選開始日期' : ''"
-        [disabled]="!questionnaire.sTime" [(ngModel)]="questionnaire.eTime" [min]="questionnaire.sTime">
+      <input
+      type="date"
+      id="eTime"
+      class="form-control"
+      [(ngModel)]="questionnaire.eTime"
+      [min]="questionnaire.sTime"
+      [disabled]="!questionnaire.sTime"
+      matTooltip="請先填選開始日期"
+      matTooltipPosition="above"
+      [matTooltipDisabled]="!!questionnaire.sTime">
     </div>
 
     <!-- 問卷簡介-->

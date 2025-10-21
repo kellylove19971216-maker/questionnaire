@@ -1,5 +1,5 @@
 import { MangerService } from './../@services/manger.service';
-import { Component, OnInit, output } from '@angular/core';
+import { Component, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { InputDataService } from '../@services/input-data.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 //假資料的interface
@@ -21,6 +22,7 @@ export interface PeriodicElement {
   eTime: string;
   result: string;
 }
+
 //假資料
 const ELEMENT_DATA: PeriodicElement[] = [
   { id: 1, title: 'JAVA前端課程意見回饋', state: 1, sTime: '2025-10-25', eTime: '2025-12-31', result: '查看結果' },
@@ -49,6 +51,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
   selector: 'app-user-list',
   standalone: true,
   imports: [
+    MatTooltipModule,
     CommonModule,
     FormsModule,
     RouterModule,

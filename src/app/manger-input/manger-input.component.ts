@@ -5,43 +5,16 @@ import { Router } from '@angular/router';
 import { InputDataService } from '../@services/input-data.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { SendComponent } from '../dialog/send/send.component';
+import { AlertComponent } from '../dialog/alert/alert.component';
 import { MatDialog } from '@angular/material/dialog';
-
-interface Option {
-  optionName: string; // 選項文字
-  code?: string;      // 選項代碼（可選）
-}
-
-interface questArray {
-  type: 'Q' | 'M' | 'T';  //題目類型
-  questId: number;        // 題目編號
-  need: boolean;          // 是否必填
-  exist: boolean;         // 是否存在
-  questName: string;      // 題目名稱
-  options: Option[];      //選項
-  optionInput?: string;   // 用於新增選項的臨時輸入
-}
-
-interface Questionnaire {
-  city: string;
-  name: string;
-  phone: string;
-  age: number;
-  sex: string;
-  email: string;
-  questArray: questArray[]; // 每題的答案
-  id: number;
-  title: string;
-  sTime: string;
-  eTime: string;
-  explain: string;
-}
+import { Questionnaire, Question} from '../@interface/questionnaire.interface';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-manger-input',
   standalone: true,
   imports: [
+    MatTooltipModule,
     CommonModule,
     FormsModule,
     MatIconModule,
@@ -52,6 +25,21 @@ interface Questionnaire {
 })
 export class MangerInputComponent {
 
+  //interface 設立問卷變數
+  questionnaire: Questionnaire = {
+    city: '',
+    name: '',
+    phone: '',
+    age: 0,
+    sex: '',
+    email: '',
+    id: 1,
+    title: '',
+    sTime: '',
+    eTime: '',
+    explain: '',
+    questArray: []
+  };
 
   today!: string;
   readonly dialog = inject(MatDialog);//dialog使用
@@ -80,24 +68,6 @@ export class MangerInputComponent {
     this.questionnaire.questArray = this.inputDataService.answerData.questArray;
   }
 
-
-  //設立問卷變數
-  questionnaire: Questionnaire = {
-    city: '',
-    name: '',
-    phone: '',
-    age: 0,
-    sex: '',
-    email: '',
-    id: 1,
-    title: '',
-    sTime: '',
-    eTime: '',
-    explain: '',
-    questArray: []
-  };
-
-
   //新增問題
   addQuestion() {
     let newId = this.questionnaire.questArray.length + 1; // 依陣列長度決定 questId
@@ -122,19 +92,17 @@ export class MangerInputComponent {
     });
   }
 
-
   //新增選項
-  addOption(question: questArray) {
-    let nextCode = String.fromCharCode(65 + question.options.length); //隨選項增加abcd
+  addOption(question: Question) {
+    let nextCode = String.fromCharCode(65 + question.options.length); // 隨選項增加 A, B, C...
     question.options.push({
       optionName: '',
       code: nextCode,
     });
   }
 
-
   //刪除選項
-  removeOption(question: questArray, optionIndex: number) {
+  removeOption(question: Question, optionIndex: number) {
     question.options.splice(optionIndex, 1);
     // 重新排序剩下的選項 code
     question.options.forEach((option, index) => {
@@ -148,7 +116,7 @@ export class MangerInputComponent {
 
     // 問卷資料
     if (!this.questionnaire.title || !this.questionnaire.sTime || !this.questionnaire.eTime || !this.questionnaire.explain) {
-      this.dialog.open(SendComponent, {
+      this.dialog.open(AlertComponent, {
         data: { message: '問卷基本資訊不能為空!' }
       });
       return false;
@@ -156,7 +124,7 @@ export class MangerInputComponent {
 
     // 檢查是否至少有一題
     if (!this.questionnaire.questArray || this.questionnaire.questArray.length === 0) {
-      this.dialog.open(SendComponent, {
+      this.dialog.open(AlertComponent, {
         data: { message: '請至少新增一個問題!' }
       });
       return false;
@@ -167,7 +135,7 @@ export class MangerInputComponent {
 
       //題目名稱不可空
       if (!need.questName) {
-        this.dialog.open(SendComponent, {
+        this.dialog.open(AlertComponent, {
           data: { message: '題目不能為空!' }
         });
         return false;
@@ -176,7 +144,7 @@ export class MangerInputComponent {
       // 非文字題必須有至少一個選項
       if (need.type !== 'T') {
         if (!need.options || need.options.length === 0) {
-          this.dialog.open(SendComponent, {
+          this.dialog.open(AlertComponent, {
             data: { message: `題目 "${need.questName}" 至少需要一個選項!` }
           });
           return false;
@@ -186,7 +154,7 @@ export class MangerInputComponent {
       //選項名稱不可空
       for (let opt of need.options) {
         if (!opt.optionName) {
-          this.dialog.open(SendComponent, {
+          this.dialog.open(AlertComponent, {
             data: { message: '選項內容不能為空!' }
           });
           return false;

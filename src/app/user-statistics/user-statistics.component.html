@@ -12,7 +12,7 @@
     <!-- 多選/單選題-->
     @if (chart.type != 'T') {
     <div>
-      <h3>{{ chart.label }}</h3>
+      <h3>{{chart.id}}.{{ chart.label }}</h3>
     </div>
     <div class="flexChart">
       <div class="canvasStyle">
@@ -28,13 +28,13 @@
       </div>
     </div>
     }
-    <!-- 文字題-->
+    <!-- 文字題
     @if (chart.type === 'T') {
     <div class="dataText">
-      <h3>{{ chart.label }}</h3>
+      <h3>{{chart.id}}.{{ chart.label }}</h3>
       <p>{{ chart.dataText }}</p>
     </div>
-    }
+    } -->
     }
     <button routerLink="/user-list" routerLinkActive="active" class="btn-back">回到表單</button>
   </div>

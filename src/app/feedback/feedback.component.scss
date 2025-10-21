@@ -1,12 +1,11 @@
 .background {
-  margin: 0 auto;
-  padding: 20px;
-  font-family: 'Microsoft JhengHei', Arial, sans-serif;
+  width: 100%;
+  height: auto;
+  padding: 2rem 1rem;
 
   h1 {
     text-align: center;
-    color: #966642;
-    /* 深咖啡 */
+    color: #4b2f1a;
     margin-bottom: 20px;
     font-size: 2rem;
     letter-spacing: 2px;
@@ -42,16 +41,13 @@ table {
 thead,
 tfoot {
   background-color: #cdb096;
-  /* 淡咖啡背景 */
-  color: #3d2a1c;
-  /* 深咖啡字體 */
   font-weight: bold;
 }
 
 th,
 td {
   border: 1px solid #966642;
-  /* 淺咖啡邊框 */
+  color: #4b2f1a;
   padding: 10px 12px;
   text-align: center;
   word-wrap: break-word;
@@ -69,8 +65,8 @@ td:last-of-type {
 }
 
 .urlCss {
-  color: #966642;
-  /* 咖啡色連結 */
+  color: #4b2f1a;
+  font-weight: bold;
   text-decoration: underline;
   cursor: pointer;
   font-weight: 500;
@@ -89,17 +85,24 @@ td:last-of-type {
   margin-top: 20px;
 
   button {
-    padding: 10px 30px;
+    padding: 8px 20px;
     border: none;
-    border-radius: 5px;
-    font-size: 16px;
+    border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s;
-    background-color: #966642;
-    color: white;
+    font-size: 14px;
+    background: #cdb096;
+    color: #4b2f1a;
+    font-weight: bold;
+    text-decoration: none;
+    box-shadow: 0 3px 8px rgb(255, 255, 255);
+    transition: all 0.3s ease;
 
     &:hover {
-      background-color: darken(#966642, 10%);
+      background: #f0ead6;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgb(255, 255, 255);
     }
   }
+
+
 }

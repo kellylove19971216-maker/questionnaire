@@ -2,11 +2,12 @@ import { InputDataService } from './@services/input-data.service';
 import { MangerService } from './@services/manger.service';
 import { Component } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive,MatTooltipModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
