@@ -59,7 +59,6 @@ export class UserInputComponent {
           { optionName: '困難', code: 'D' },
           { optionName: '非常困難', code: 'E' },
         ],
-        optionInput: ''
       },
       {
         questId: 3,
@@ -156,7 +155,7 @@ export class UserInputComponent {
       radioAnswer: '',
       options: array.options.map(option => ({
         ...option,
-        boxBollen: false
+        boxBollean: false
       }))
     }));
   }
@@ -184,7 +183,7 @@ export class UserInputComponent {
         else if (needs.type == "M") {
           let check = false;
           for (let booleans of needs.options) {
-            if (booleans.boxBollen) {
+            if (booleans.boxBollean) {
               check = true;
             }
           }

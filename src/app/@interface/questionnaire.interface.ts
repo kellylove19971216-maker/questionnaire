@@ -12,7 +12,6 @@ export interface Question {
   exist: boolean;          // 是否存在（可用於刪除或隱藏）
   questName: string;       // 題目名稱
   options: Option[];       // 選項列表
-  optionInput?: string;    // 臨時輸入（新增選項用）
 }
 
 // 整份問卷（原始題目）
@@ -33,7 +32,7 @@ export interface Questionnaire {
 
 // 選項回答狀態（多選題專用）
 export interface OptionAnswer extends Option {
-  boxBollen: boolean; // 是否勾選
+  boxBollean: boolean; // 是否勾選
 }
 
 // 單題回答資料（包含使用者輸入的答案）
