@@ -5,7 +5,7 @@ import { InputDataService } from '../@services/input-data.service';
 import { MangerService } from './../@services/manger.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertComponent } from '../dialog/alert/alert.component';
-import { Questionnaire, QuestionnaireAnswer, QuestionAnswer} from '../@interface/questionnaire.interface';
+import { Questionnaire,Question,Option} from '../@interface/questionnaire.interface';
 
 @Component({
   selector: 'app-user-input',
@@ -108,19 +108,19 @@ export class UserInputComponent {
   };
 
   // 存放使用者選擇的答案
-  answerData: QuestionnaireAnswer = {
+  answerData: Questionnaire = {
     city: '',
     name: '',
     phone: '',
-    age: 0,
+    age: 1,
     sex: '',
     email: '',
-    questArray: [],
-    id: 0,
+    id: 1,
     title: '',
     sTime: '',
     eTime: '',
-    explain: ''
+    explain: '',
+    questArray: []
   };
 
   isAdmin!: boolean; //管理者
@@ -148,7 +148,7 @@ export class UserInputComponent {
 
 
   // 【修改】整理假資料的資料格式,轉換為 QuestionAnswer 格式
-  tidyQuestArray(): QuestionAnswer[] {
+  tidyQuestArray(): Question[] {
     return this.quest.questArray.map(array => ({
       ...array,
       textAnswer: '',

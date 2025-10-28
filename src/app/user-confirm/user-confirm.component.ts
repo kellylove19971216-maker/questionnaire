@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { InputDataService } from '../@services/input-data.service';
-import { QuestionnaireAnswer } from '../@interface/questionnaire.interface';
+import { Questionnaire } from '../@interface/questionnaire.interface';
 
 @Component({
   selector: 'app-user-confirm',
@@ -12,7 +12,7 @@ import { QuestionnaireAnswer } from '../@interface/questionnaire.interface';
   styleUrl: './user-confirm.component.scss'
 })
 export class UserConfirmComponent {
-  answerData !: QuestionnaireAnswer; // 存放使用者選擇的答案
+  answerData !: Questionnaire; // 存放使用者選擇的答案
   isAdmin !:boolean; //管理者狀態
 
   constructor(private inputDataService: InputDataService, private mangerService:MangerService) {
