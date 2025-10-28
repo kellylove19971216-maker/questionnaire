@@ -117,7 +117,7 @@
             </p>
             @for(option of questData.options; track $index){
             <label>
-              <input [(ngModel)]="option.boxBollen" type="checkbox" value="{{option.code}}"
+              <input [(ngModel)]="option.boxBollean" type="checkbox" value="{{option.code}}"
                 name="{{questData.questId}}">
               {{option.optionName}}
             </label>

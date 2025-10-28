@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { AlertComponent } from '../dialog/alert/alert.component';
 import { MatDialog } from '@angular/material/dialog';
-import { Questionnaire, Question} from '../@interface/questionnaire.interface';
+import { Questionnaire, Question } from '../@interface/questionnaire.interface';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
@@ -94,7 +94,7 @@ export class MangerInputComponent {
 
   //新增選項
   addOption(question: Question) {
-    let nextCode = String.fromCharCode(65 + question.options.length); // 隨選項增加 A, B, C...
+    let nextCode = question.options.length + 1; // 隨選項增加 1.2.3.4
     question.options.push({
       optionName: '',
       code: nextCode,
@@ -104,9 +104,9 @@ export class MangerInputComponent {
   //刪除選項
   removeOption(question: Question, optionIndex: number) {
     question.options.splice(optionIndex, 1);
-    // 重新排序剩下的選項 code
+    // 重新排序剩下的選項 code 為 1, 2, 3...
     question.options.forEach((option, index) => {
-      option.code = String.fromCharCode(65 + index);
+      option.code = index + 1;
     });
   }
 

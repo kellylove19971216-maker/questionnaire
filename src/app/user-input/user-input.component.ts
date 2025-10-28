@@ -39,11 +39,11 @@ export class UserInputComponent {
         questName: '您對本次 JAVA 前端課程的整體滿意度為何?',
         type: 'Q',
         options: [
-          { optionName: '非常不滿意', code: 'A' },
-          { optionName: '不滿意', code: 'B' },
-          { optionName: '普通', code: 'C' },
-          { optionName: '滿意', code: 'D' },
-          { optionName: '非常滿意', code: 'E' },
+          { optionName: '非常不滿意', code: 1 },
+          { optionName: '不滿意', code: 2 },
+          { optionName: '普通', code: 3 },
+          { optionName: '滿意', code: 4 },
+          { optionName: '非常滿意', code: 5 },
         ],
       },
       {
@@ -53,11 +53,11 @@ export class UserInputComponent {
         questName: '您覺得課程的難易度如何?',
         type: 'Q',
         options: [
-          { optionName: '非常簡單', code: 'A' },
-          { optionName: '簡單', code: 'B' },
-          { optionName: '普通', code: 'C' },
-          { optionName: '困難', code: 'D' },
-          { optionName: '非常困難', code: 'E' },
+          { optionName: '非常簡單', code: 1 },
+          { optionName: '簡單', code: 2 },
+          { optionName: '普通', code: 3 },
+          { optionName: '困難', code: 4 },
+          { optionName: '非常困難', code: 5 },
         ],
       },
       {
@@ -67,11 +67,11 @@ export class UserInputComponent {
         questName: '您覺得本課程中最有幫助的部分是哪些?(可複選)',
         type: 'M',
         options: [
-          { optionName: 'JAVA 語法基礎', code: 'A' },
-          { optionName: 'JAVA與前端整合(例如 Servlet、JSP、Spring Boot 前端應用)', code: 'B' },
-          { optionName: '講師的教學方式', code: 'C' },
-          { optionName: '實作練習與專案', code: 'D' },
-          { optionName: '前端基礎(HTML / CSS / JavaScript)', code: 'E' },
+          { optionName: 'JAVA 語法基礎', code: 1 },
+          { optionName: 'JAVA與前端整合(例如 Servlet、JSP、Spring Boot 前端應用)', code: 2 },
+          { optionName: '講師的教學方式', code: 3 },
+          { optionName: '實作練習與專案', code: 4 },
+          { optionName: '前端基礎(HTML / CSS / JavaScript)', code: 5 },
         ],
       },
       {
@@ -81,11 +81,11 @@ export class UserInputComponent {
         questName: '您希望未來課程可以加強哪些面向?(可複選)',
         type: 'M',
         options: [
-          { optionName: '更多實作案例', code: 'A' },
-          { optionName: '更深入的框架介紹(如 Vue、React、Angular 與 Java 的串接)', code: 'B' },
-          { optionName: '就業實務技能(履歷、面試技巧)', code: 'C' },
-          { optionName: '小組討論與互動', code: 'D' },
-          { optionName: '線上教材或錄影複習', code: 'E' },
+          { optionName: '更多實作案例', code: 1 },
+          { optionName: '更深入的框架介紹(如 Vue、React、Angular 與 Java 的串接)', code: 2 },
+          { optionName: '就業實務技能(履歷、面試技巧)', code: 3 },
+          { optionName: '小組討論與互動', code: 4 },
+          { optionName: '線上教材或錄影複習', code: 5 },
         ],
       },
       {
@@ -152,7 +152,7 @@ export class UserInputComponent {
     return this.quest.questArray.map(array => ({
       ...array,
       textAnswer: '',
-      radioAnswer: '',
+      radioAnswer: 0,
       options: array.options.map(option => ({
         ...option,
         boxBollean: false

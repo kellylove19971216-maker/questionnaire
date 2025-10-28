@@ -1,7 +1,7 @@
 // 選項
 export interface Option {
   optionName: string;  // 選項文字
-  code?: string;       // 選項代碼（可選）
+  code?: number;       // 選項代碼（可選）
 }
 
 // 單題（問卷題目）
@@ -38,7 +38,7 @@ export interface OptionAnswer extends Option {
 // 單題回答資料（包含使用者輸入的答案）
 export interface QuestionAnswer extends Question {
   textAnswer: string;           // 文字題答案
-  radioAnswer: string;          // 單選題答案
+  radioAnswer: number;          // 單選題答案
   options: OptionAnswer[];      // 覆蓋原本選項，帶多選勾選狀態
 }
 
