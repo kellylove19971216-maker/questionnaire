@@ -11,10 +11,10 @@
     <nav class="nav-menu">
       <a routerLink="/author" routerLinkActive="active" class="nav-item">關於作者</a>
       <a routerLink="/user-list" routerLinkActive="active" class="nav-item">問卷列表</a>
-      @if(isAdmin){
-      <a routerLink="/user-list" class="nav-item" (click)="logOut()">後台登出</a>
+      @if(!isAdmin){
+        <a routerLink="/log-in" routerLinkActive="active" class="nav-item">後台登入</a>
       } @else {
-      <a routerLink="/log-in" routerLinkActive="active" class="nav-item">後台登入</a>
+      <a routerLink="/user-list" class="nav-item" (click)="logOut()">後台登出</a>
       }
     </nav>
   </div>

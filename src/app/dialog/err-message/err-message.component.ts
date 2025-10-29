@@ -4,19 +4,20 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/materia
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-send',
+  selector: 'app-err-message',
   imports: [MatDialogModule],
-  templateUrl: './send.component.html',
-  styleUrl: './send.component.scss'
+  templateUrl: './err-message.component.html',
+  styleUrl: './err-message.component.scss'
 })
-export class SendComponent {
+export class ErrMessageComponent {
   constructor(private inputDataService: InputDataService) { }
   readonly router = inject(Router);
-  readonly dialogRef = inject(MatDialogRef<SendComponent>);
-  readonly data = inject<{ message: string }>(MAT_DIALOG_DATA);
+  readonly dialogRef = inject(MatDialogRef<ErrMessageComponent>);
+  readonly data = inject<{ title: string ; message: string }>(MAT_DIALOG_DATA);
 
   onClick() {
     this.dialogRef.close();
   }
 
 }
+

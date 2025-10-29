@@ -7,13 +7,20 @@
 <div class="background2">
   <div class="account">
     <p>帳號</p>
-    <input [(ngModel)]="account" type="text" name="account" placeholder="請輸入帳號">
+    <input
+      [(ngModel)]="account"
+      type="text"
+      name="account"
+      placeholder="請輸入帳號（3~8碼）">
   </div>
   <div class="password">
     <p>密碼</p>
     <div class="passwordInside">
-      <input type="{{showPassword? 'text' : 'password'}}" [(ngModel)]="password" placeholder="請輸入密碼" />
-      <mat-icon fontIcon="{{showPassword? 'visibility' : 'visibility_off'}}" (click)="changePasswordIcon()"></mat-icon>
+      <input
+        [(ngModel)]="password"
+        [type]="showPassword ? 'text' : 'password'"
+        placeholder="請輸入密碼（8~16碼）" />
+      <mat-icon [fontIcon]="showPassword ? 'visibility' : 'visibility_off'" (click)="changePasswordIcon()"></mat-icon>
     </div>
   </div>
   <div class="buttonLog">
@@ -21,3 +28,4 @@
   </div>
 </div>
 </div>
+

@@ -23,29 +23,67 @@ export interface PeriodicElement {
   result: string;
 }
 
+// 新增：根據 sTime / eTime 計算狀態
+function computeState(sTime: string, eTime: string): number {
+  // 0 = 尚未開始, 1 = 進行中, 2 = 已截止
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()); // 今天午夜（本地時間）
+  const start = new Date(sTime + 'T00:00:00'); // 以當日凌晨為起始
+  const end = new Date(eTime + 'T23:59:59');   // 當日結束視為全天
+
+  if (today < start) return 0;
+  if (today > end) return 2;
+  return 1;
+}
+
+// 新增：根據狀態回傳操作字串（可再依 isAdmin 擴充）
+function computeResultLabel(sTime: string, eTime: string, isAdmin = false): string {
+  const state = computeState(sTime, eTime);
+  if (isAdmin) {
+    // 管理者對應文字（可於 runtime 根據 isAdmin 更新）
+    if (state === 0) return '編輯問卷';
+    return '查看回饋';
+  } else {
+    // 使用者對應文字
+    if (state === 0) return '尚未開始';
+    if (state === 1) return '開始填寫';
+    return '查看結果';
+  }
+}
+
 //假資料
-const ELEMENT_DATA: PeriodicElement[] = [
-  { id: 1, title: 'JAVA前端課程意見回饋', state: 1, sTime: '2025-10-25', eTime: '2025-12-31', result: '查看結果' },
-  { id: 2, title: 'Python資料分析問卷', state: 1, sTime: '2025-09-01', eTime: '2025-09-30', result: '查看結果' },
-  { id: 3, title: 'UI/UX設計滿意度調查', state: 2, sTime: '2025-07-15', eTime: '2025-08-15', result: '查看結果' },
-  { id: 4, title: '旅遊體驗回饋表單', state: 0, sTime: '2025-11-05', eTime: '2026-01-05', result: '查看結果' },
-  { id: 5, title: '線上客服服務滿意度調查', state: 1, sTime: '2025-09-10', eTime: '2025-10-10', result: '查看結果' },
-  { id: 6, title: '職涯培訓課程問卷', state: 2, sTime: '2025-05-01', eTime: '2025-06-01', result: '查看結果' },
-  { id: 7, title: '餐飲體驗意見表', state: 0, sTime: '2025-12-01', eTime: '2026-01-15', result: '查看結果' },
-  { id: 8, title: '專案管理工具使用回饋', state: 1, sTime: '2025-08-20', eTime: '2025-09-20', result: '查看結果' },
-  { id: 9, title: '健康講座滿意度調查', state: 2, sTime: '2025-06-10', eTime: '2025-07-10', result: '查看結果' },
-  { id: 10, title: 'AI應用工作坊問卷', state: 0, sTime: '2025-11-20', eTime: '2025-12-20', result: '查看結果' },
-  { id: 11, title: '雲端技術培訓課程回饋', state: 1, sTime: '2025-09-15', eTime: '2025-10-15', result: '查看結果' },
-  { id: 12, title: '日語學習工作坊調查', state: 2, sTime: '2025-04-10', eTime: '2025-05-10', result: '查看結果' },
-  { id: 13, title: '職場溝通技巧課程問卷', state: 0, sTime: '2025-12-05', eTime: '2026-01-05', result: '查看結果' },
-  { id: 14, title: '顧客服務體驗調查', state: 1, sTime: '2025-08-25', eTime: '2025-09-25', result: '查看結果' },
-  { id: 15, title: '專業證照培訓課程回饋', state: 2, sTime: '2025-06-01', eTime: '2025-07-01', result: '查看結果' },
-  { id: 16, title: '數位行銷策略問卷', state: 0, sTime: '2025-11-10', eTime: '2025-12-31', result: '查看結果' },
-  { id: 17, title: '使用者介面研究調查', state: 1, sTime: '2025-09-05', eTime: '2025-09-30', result: '查看結果' },
-  { id: 18, title: 'AI客服體驗問卷', state: 2, sTime: '2025-05-20', eTime: '2025-06-20', result: '查看結果' },
-  { id: 19, title: '線上學習平台滿意度', state: 0, sTime: '2025-12-20', eTime: '2026-01-31', result: '查看結果' },
-  { id: 20, title: '團隊合作工作坊回饋', state: 1, sTime: '2025-08-01', eTime: '2025-09-01', result: '查看結果' }
+const RAW_DATA = [
+  { id: 1, title: 'JAVA前端課程意見回饋', sTime: '2025-10-25', eTime: '2025-12-31' },
+  { id: 2, title: 'Python資料分析問卷', sTime: '2025-10-01', eTime: '2025-10-30' },
+  { id: 3, title: 'UI/UX設計滿意度調查', sTime: '2025-07-15', eTime: '2025-08-15' },
+  { id: 4, title: '旅遊體驗回饋表單', sTime: '2025-11-05', eTime: '2026-01-05' },
+  { id: 5, title: '線上客服服務滿意度調查', sTime: '2025-09-10', eTime: '2025-10-10' },
+  { id: 6, title: '職涯培訓課程問卷', sTime: '2025-05-01', eTime: '2025-06-01' },
+  { id: 7, title: '餐飲體驗意見表', sTime: '2025-12-01', eTime: '2026-01-15' },
+  { id: 8, title: '專案管理工具使用回饋', sTime: '2025-08-20', eTime: '2025-09-20' },
+  { id: 9, title: '健康講座滿意度調查', sTime: '2025-06-10', eTime: '2025-07-10' },
+  { id: 10, title: 'AI應用工作坊問卷', sTime: '2025-11-20', eTime: '2025-12-20' },
+  { id: 11, title: '雲端技術培訓課程回饋', sTime: '2025-09-15', eTime: '2025-10-15' },
+  { id: 12, title: '日語學習工作坊調查', sTime: '2025-10-10', eTime: '2026-05-10' },
+  { id: 13, title: '職場溝通技巧課程問卷', sTime: '2025-12-05', eTime: '2026-01-05' },
+  { id: 14, title: '顧客服務體驗調查', sTime: '2025-08-25', eTime: '2025-09-25' },
+  { id: 15, title: '專業證照培訓課程回饋', sTime: '2025-06-01', eTime: '2025-07-01' },
+  { id: 16, title: '數位行銷策略問卷', sTime: '2025-11-10', eTime: '2025-12-31' },
+  { id: 17, title: '使用者介面研究調查', sTime: '2025-09-05', eTime: '2026-09-30' },
+  { id: 18, title: 'AI客服體驗問卷', sTime: '2025-05-20', eTime: '2025-06-20' },
+  { id: 19, title: '線上學習平台滿意度', sTime: '2025-12-20', eTime: '2026-01-31' },
+  { id: 20, title: '團隊合作工作坊回饋', sTime: '2025-08-01', eTime: '2025-09-01' }
 ];
+
+// 最終的 ELEMENT_DATA 由 RAW_DATA 映射並計算 state
+const ELEMENT_DATA: PeriodicElement[] = RAW_DATA.map(item => ({
+  id: item.id,
+  title: item.title,
+  sTime: item.sTime,
+  eTime: item.eTime,
+  result: computeResultLabel(item.sTime, item.eTime, false),
+  state: computeState(item.sTime, item.eTime)
+}));
 
 @Component({
   selector: 'app-user-list',

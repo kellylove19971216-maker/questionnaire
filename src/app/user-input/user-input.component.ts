@@ -1,11 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { InputDataService } from '../@services/input-data.service';
 import { MangerService } from './../@services/manger.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertComponent } from '../dialog/alert/alert.component';
-import { Questionnaire,Question,Option} from '../@interface/questionnaire.interface';
+import { Questionnaire,Question} from '../@interface/questionnaire.interface';
 
 @Component({
   selector: 'app-user-input',
@@ -16,7 +16,12 @@ import { Questionnaire,Question,Option} from '../@interface/questionnaire.interf
 export class UserInputComponent {
 
   //建構
-  constructor(private inputDataService: InputDataService, private router: Router, private mangerService: MangerService) { }
+  constructor(
+    private inputDataService: InputDataService,
+    private router: Router,
+    private mangerService: MangerService,
+    private dialog: MatDialog
+  ) { }
 
   //使用 Questionnaire interface
   quest: Questionnaire = {
@@ -124,7 +129,6 @@ export class UserInputComponent {
   };
 
   isAdmin!: boolean; //管理者
-  readonly dialog = inject(MatDialog); //dialog使用
 
   ngOnInit() {
     //判斷是否為管理者

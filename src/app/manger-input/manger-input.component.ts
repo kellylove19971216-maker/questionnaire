@@ -1,4 +1,4 @@
-import { Component, HostListener, inject } from '@angular/core';
+import { Component, HostListener} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -42,11 +42,12 @@ export class MangerInputComponent {
   };
 
   today!: string;
-  readonly dialog = inject(MatDialog);//dialog使用
 
   constructor(
     private inputDataService: InputDataService,
-    private router: Router,) { }
+    private router: Router,
+    private dialog: MatDialog,
+  ) { }
 
 
   ngOnInit(): void {
