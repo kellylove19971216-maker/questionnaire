@@ -4,15 +4,15 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/materia
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-err-message',
+  selector: 'app-basic-mes',
   imports: [MatDialogModule],
-  templateUrl: './err-message.component.html',
-  styleUrl: './err-message.component.scss'
+  templateUrl: './basic-mes.component.html',
+  styleUrl: './basic-mes.component.scss'
 })
-export class ErrMessageComponent {
+export class BasicMesComponent {
   constructor(private inputDataService: InputDataService) { }
   readonly router = inject(Router);
-  readonly dialogRef = inject(MatDialogRef<ErrMessageComponent>);
+  readonly dialogRef = inject(MatDialogRef<BasicMesComponent>);
   readonly data = inject<{ title: string ; message: string }>(MAT_DIALOG_DATA);
 
   onClick() {
@@ -20,4 +20,3 @@ export class ErrMessageComponent {
   }
 
 }
-

@@ -6,7 +6,7 @@ import { MangerService } from './../@services/manger.service';
 import { HttpService } from '../@services/http.service';
 import { ApiData,Login } from '../@interface/api-data';
 import { MatDialog } from '@angular/material/dialog';
-import { ErrMessageComponent } from '../dialog/err-message/err-message.component';
+import { BasicMesComponent } from '../dialog/basic-mes/basic-mes.component';
 
 
 @Component({
@@ -38,7 +38,7 @@ export class LogInComponent {
 
     //沒有輸入帳號或密碼
        if (!this.account || !this.password) {
-      this.dialog.open(ErrMessageComponent,{
+      this.dialog.open(BasicMesComponent,{
             data: {
               title: '錯誤訊息',
               message: '請輸入帳號密碼'}
@@ -58,7 +58,7 @@ export class LogInComponent {
             this.mangerService.logIn(); // 更新管理員狀態
             this.router.navigate(['/user-list']); // 登入成功導頁
           } else {
-            this.dialog.open(ErrMessageComponent,{
+            this.dialog.open(BasicMesComponent,{
             data: {
               title: '錯誤訊息'+ res.code,
               message: '帳號或密碼輸入錯誤!'} //格式對，但內容錯
@@ -68,7 +68,7 @@ export class LogInComponent {
         // error呼叫Api錯誤的時候會來到這邊(可能格式就錯了)
         error: (err: any) => {
           console.error('API呼叫錯誤：', err);
-          this.dialog.open(ErrMessageComponent,{
+          this.dialog.open(BasicMesComponent,{
             data: {
               title: '錯誤訊息'+err.status,
               message: '帳號密碼格式或伺服器錯誤!'}

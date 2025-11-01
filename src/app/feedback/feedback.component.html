@@ -5,6 +5,7 @@
       <thead>
         <tr>
           <th scope="col">姓名</th>
+          <th scope="col">信箱</th>
           <th scope="col">填寫時間</th>
           <th scope="col" class="col-time">觀看</th>
         </tr>
@@ -12,8 +13,9 @@
       <tbody>
         @for (quset of questArray; track $index) {
         <tr>
-          <td>{{quset.questName}}</td>
-          <td>{{quset.questTime}}</td>
+          <td>{{quset.name}}</td>
+          <td>{{quset.email}}</td>
+          <td>{{quset.fillinDate}}</td>
           <td class="urlCss" (click)="goPreview()">前往</td>
         </tr>
         }

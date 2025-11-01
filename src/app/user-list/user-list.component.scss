@@ -5,13 +5,12 @@
   padding: 2rem 1rem;
 }
 
-/* 搜尋欄位 */
+/* 搜尋外框 */
 .search {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 20px;
+  flex-direction: column;
+  /* 讓內部每一行垂直排列 */
+  gap: 15px;
   border: 2px solid #8b6f47;
   border-radius: 12px;
   padding: 20px 3%;
@@ -19,19 +18,50 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
 
-/* 搜尋欄位內的 input */
-.search input {
-  width: 180px;
-  height: 28px;
-  padding: 3px 8px;
-  border: 1px solid #c9b79a;
-  border-radius: 6px;
-  font-size: 14px;
+/* 第一行 */
+.search-now {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+
+  input {
+    width: 90%;
+    height: 28px;
+    padding: 3px 8px;
+    border: 1px solid #c9b79a;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+
+
 }
 
-/* 搜尋欄位按鈕 */
+/* 第二行 */
+.search-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+
+  input {
+    width: 270px;
+    height: 28px;
+    padding: 3px 8px;
+    border: 1px solid #c9b79a;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+}
+
+.search-date{
+    margin-right: 20px;
+  }
+
+
+/* 按鈕 */
 .search button {
-  width: 100px;
+  width: 150px;
   height: 30px;
   background: #cdb096;
   color: #4b2f1a;
@@ -42,12 +72,12 @@
   transition: all 0.3s ease;
 }
 
-/* 搜尋按鈕 hover */
 .search button:hover {
   background: #f0ead6;
   transform: translateY(-2px);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
 }
+
 
 /* 表格容器樣式 */
 .mat-elevation-z8 {

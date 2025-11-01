@@ -12,10 +12,15 @@ export class UserStatisticsComponent {
 
   //圖表假資料
   chartArray = {
-    questName: 'UI/UX 設計滿意度調查',
-    sDate: '2025/09/15',
-    eDate: '2025/10/31',
-    quest: [
+    quiz:
+    {
+    id:1,
+    title: 'UI/UX 設計滿意度調查',
+    startDate: '2025-09-15',
+    endDate: '2025-10-31',
+    description: '本問卷旨在了解使用者對於我們系統的 UI/UX 設計滿意度，請您根據實際使用經驗，選擇最符合您感受的選項，您的回饋將有助於我們持續改進設計品質，提升使用體驗，感謝您的參與與支持！',
+    },
+    questionVoList: [
       {
         id: '1',
         type: 'Q',
@@ -74,7 +79,7 @@ export class UserStatisticsComponent {
   }
 
   ngAfterViewInit(): void {
-    for (let chartData of this.chartArray.quest) {
+    for (let chartData of this.chartArray.questionVoList) {
       if (chartData.type != 'T') {
         let ctx = document.getElementById(chartData.id) as HTMLCanvasElement;
 

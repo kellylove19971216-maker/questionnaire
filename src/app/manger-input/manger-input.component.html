@@ -6,13 +6,13 @@
     <!-- 問卷名稱-->
     <div class="form-group required">
       <label for="title">問卷名稱</label>
-      <input type="text" id="title" [(ngModel)]="questionnaire.title" class="form-control">
+      <input type="text" id="title" [(ngModel)]="questionnaire.quiz.title" class="form-control">
     </div>
 
     <!-- 開始時間-->
     <div class="form-group required">
       <label for="startDate">開始時間</label>
-      <input type="date" id="sTime" class="form-control" [(ngModel)]="questionnaire.sTime" [max]="questionnaire.eTime"
+      <input type="date" id="startDate" class="form-control" [(ngModel)]="questionnaire.quiz.startDate" [max]="questionnaire.quiz.endDate"
         [min]="today">
     </div>
 
@@ -21,27 +21,27 @@
       <label for="endDate">結束時間</label>
       <input
       type="date"
-      id="eTime"
+      id="endDate"
       class="form-control"
-      [(ngModel)]="questionnaire.eTime"
-      [min]="questionnaire.sTime"
-      [disabled]="!questionnaire.sTime"
+      [(ngModel)]="questionnaire.quiz.endDate"
+      [min]="questionnaire.quiz.startDate"
+      [disabled]="!questionnaire.quiz.startDate"
       matTooltip="請先填選開始日期"
       matTooltipPosition="above"
-      [matTooltipDisabled]="!!questionnaire.sTime">
+      [matTooltipDisabled]="!!questionnaire.quiz.startDate">
     </div>
 
     <!-- 問卷簡介-->
     <div class="form-group required">
-      <label for="explain">問卷簡介</label>
-      <textarea id="explain" [(ngModel)]="questionnaire.explain" class="form-control" rows="3"></textarea>
+      <label for="description">問卷簡介</label>
+      <textarea id="description" [(ngModel)]="questionnaire.quiz.description" class="form-control" rows="3"></textarea>
     </div>
   </div>
 
   <!-- 區塊二：問題設定 -->
   <div class="questions-section">
     <h2>問題設定</h2>
-    @for(question of questionnaire.questArray; track $index) {
+    @for(question of questionnaire.questionVoList; track $index) {
     <div class="question-item">
       <div class="question-header">
         <h3>問題 {{$index + 1}}</h3>
@@ -71,7 +71,7 @@
       <!-- 新增題目名稱-->
       <div class="form-group">
         <label>題目</label>
-        <input type="text" [(ngModel)]="question.questName" class="form-control">
+        <input type="text" [(ngModel)]="question.name" class="form-control">
       </div>
 
       <!-- 選項區域（僅單選/多選題） -->
@@ -81,7 +81,7 @@
       </div>
 
       <!-- 選項名稱-->
-      @for(option of question.options; track $index) {
+      @for(option of question.optionsList; track $index) {
       <div class="option-item">
         <input type="text" [(ngModel)]="option.optionName" class="form-control" placeholder="選項內容">
 

@@ -1,13 +1,13 @@
 <div class="questionnaire-container">
   <!-- 問卷標題 -->
-  <h1 class="questionnaire-title">{{answerData.title}}</h1>
+  <h1 class="questionnaire-title">{{answerData.quiz.title}}</h1>
 
   <!-- 問卷開放時間 -->
-  <div class="questionnaire-period">問卷開放時間：{{answerData.sTime}}~{{answerData.eTime}}</div>
+  <div class="questionnaire-period">問卷開放時間：{{answerData.quiz.startDate}}~{{answerData.quiz.endDate}}</div>
 
   <!-- 問卷說明 -->
   <div class="questionnaire-description">
-    {{answerData.explain}}
+    {{answerData.quiz.description}}
   </div>
 
   <!-- 基本資料區塊 -->
@@ -16,24 +16,24 @@
     <div class="form-grid">
       <div class="form-group required">
         <label>姓名：</label>
-        <input [(ngModel)]="answerData.name" type="text" class="form-input">
+        <input [(ngModel)]="answerData.user.name" type="text" class="form-input">
       </div>
       <div class="form-group required">
         <label>電話：</label>
-        <input [(ngModel)]="answerData.phone" type="tel" class="form-input">
+        <input [(ngModel)]="answerData.user.phone" type="tel" class="form-input">
       </div>
       <div class="form-group required">
         <label>Email：</label>
-        <input [(ngModel)]="answerData.email" type="email" class="form-input">
+        <input [(ngModel)]="answerData.user.email" type="email" class="form-input">
       </div>
       <div class="form-group">
         <label>年齡：</label>
-        <input [(ngModel)]="answerData.age" type="number" class="form-select" min="1">
+        <input [(ngModel)]="answerData.user.age" type="number" class="form-select" min="1">
       </div>
       <div class="form-group">
         <label>性別：</label>
         <div class="sex-group">
-          <select [(ngModel)]="answerData.sex" class="form-select">
+          <select [(ngModel)]="answerData.user.sex" class="form-select">
             <option value="">請選擇性別</option>
             <option value="男">男</option>
             <option value="女">女</option>
@@ -43,7 +43,7 @@
       </div>
       <div class="form-group">
         <label>居住縣市：</label>
-        <select [(ngModel)]="answerData.city" class="form-select">
+        <select [(ngModel)]="answerData.user.city" class="form-select">
           <option value="">請選擇居住縣市</option>
           <!-- 直轄市 -->
           <option value="臺北市">臺北市</option>
@@ -81,21 +81,21 @@
     <div class="question-block">
       <h3>一、單選題 (Single Choice)</h3>
       <div class="question">
-        @for(questData of answerData.questArray;track $index){
+        @for(questData of answerData.questionVoList;track $index){
         <div class="radio-group">
 
       <!-- 單選題區塊 -->
           @if(questData.type == 'Q'){
           <p>
-            {{questData.questId}}.{{questData.questName}}
+            {{questData.questionId}}.{{questData.name}}
             @if (questData.need) {
             <span style="color: red;">*</span>
             }
           </p>
-          @for(option of questData.options;track $index){
+          @for(option of questData.optionsList;track $index){
           <!-- ngmodel會抓value的值 -->
           <label><input [(ngModel)]="questData.radioAnswer" type="radio" value="{{option.code}}"
-              name="{{questData.questId}}"> {{option.optionName}}</label>
+              name="{{questData.questionId}}"> {{option.optionName}}</label>
           }
           }
         </div>
@@ -107,18 +107,18 @@
       <div class="question-block">
         <h3>二、多選題 (Multiple Choice)</h3>
         <div class="question">
-          @for(questData of answerData.questArray; track $index){
+          @for(questData of answerData.questionVoList; track $index){
           @if(questData.type == 'M'){
           <div class="radio-group">
-            <p>{{questData.questId}}. {{questData.questName}}
+            <p>{{questData.questionId}}. {{questData.name}}
               @if (questData.need) {
               <span style="color: red;">*</span>
               }
             </p>
-            @for(option of questData.options; track $index){
+            @for(option of questData.optionsList; track $index){
             <label>
               <input [(ngModel)]="option.boxBollean" type="checkbox" value="{{option.code}}"
-                name="{{questData.questId}}">
+                name="{{questData.questionId}}">
               {{option.optionName}}
             </label>
             }
@@ -133,15 +133,15 @@
       <div class="question-block">
         <h3>三、開放式題目 (Open-ended)</h3>
         <div class="question">
-          @for(questData of answerData.questArray; track $index){
+          @for(questData of answerData.questionVoList; track $index){
           @if(questData.type == 'T'){
-          <p>{{questData.questId}}. {{questData.questName}}
+          <p>{{questData.questionId}}. {{questData.name}}
             @if (questData.need) {
             <span style="color: red;">*</span>
             }
           </p>
           <textarea [(ngModel)]="questData.textAnswer" class="form-textarea" placeholder="此處可填寫"
-            name="{{questData.questId}}"></textarea>
+            name="{{questData.questionId}}"></textarea>
           }
           }
         </div>
@@ -153,9 +153,8 @@
   <!-- 按鈕區域 -->
   <div class="button-group">
     @if(isAdmin){
-    <button (click)="goBack()" routerLink="/manger-input" >修改</button>
-    <button  (click)="saveData()" routerLink="/user-list" >存檔</button>
-    <button  (click)="publish()" routerLink="/user-list" >發布</button>
+    <button (click)="goBack()">修改問卷</button>
+    <button  (click)="publish()">發布問卷</button>
     }@else {
     <button routerLink="/user-list" routerLinkActive="active" >取消</button>
     <button (click)="nextStep()" >預覽</button>

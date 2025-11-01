@@ -1,30 +1,30 @@
 <div class="background1">
 
-  <!-- 搜尋欄位-->
+  <!-- 搜尋欄位 -->
   <div class="search">
 
-    <!-- 即時搜尋-->
-    <div><span>即時查詢：</span><input (keyup)="changeInput($event)" placeholder="請輸入欲搜尋之問卷名稱" [(ngModel)]="searchData">
+    <!-- 第一行：即時搜尋 -->
+    <div class="search-now">
+      <span>即時查詢：</span>
+      <input (keyup)="changeInput($event)" placeholder="請輸入問卷名稱" [(ngModel)]="searchData">
     </div>
 
-    <!-- 開始時間-->
-    <div>
-      <span>問卷開始時間：</span>
-      <input type="date" [(ngModel)]="chooseDateS" [max]="chooseDateE" [min]="today">
+    <!-- 第二行：日期與按鈕 -->
+    <div class="search-row">
+      <div>
+        <span class="search-date" >問卷開始時間：</span>
+        <input type="date" [(ngModel)]="chooseDateS" [max]="chooseDateE" [min]="today">
+      </div>
+
+      <span>迄</span>
+      <input type="date" [(ngModel)]="chooseDateE" [min]="chooseDateS" [disabled]="!chooseDateS"
+        [matTooltip]="!chooseDateS ? '請先填選開始日期' : ''" matTooltipPosition="above" [matTooltipDisabled]="!!chooseDateS">
+
+      <button class="iconList">立即搜尋</button>
+
+      <button class="iconList" (click)="reset()">重新整理</button>
     </div>
-
-    <!-- 結束時間-->
-    <span>迄</span>
-    <input type="date" [(ngModel)]="chooseDateE" [min]="chooseDateS" [disabled]="!chooseDateS"
-      [matTooltip]="!chooseDateS ? '請先填選開始日期' : ''" matTooltipPosition="above" [matTooltipDisabled]="!!chooseDateS">
-
-    <!-- 搜尋按鈕-->
-    <button class="iconList">搜尋</button>
-
-    <!-- 重置按鈕-->
-    <div class="header-cell">重置<mat-icon (click)="reset()" fontIcon="sync" class="iconList"></mat-icon></div>
   </div>
-
 
   <!-- 表格欄位 -->
   <div class="mat-elevation-z8">
@@ -83,17 +83,17 @@
       </ng-container>
 
       <!-- 開始時間 -->
-      <ng-container matColumnDef="sTime">
+      <ng-container matColumnDef="startDate">
         <th mat-header-cell *matHeaderCellDef>
           <div>開始時間</div>
         </th>
-        <td mat-cell *matCellDef="let element"> {{element.sTime}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.startDate}} </td>
       </ng-container>
 
       <!-- 結束時間 -->
-      <ng-container matColumnDef="eTime">
+      <ng-container matColumnDef="endDate">
         <th mat-header-cell *matHeaderCellDef> 結束時間 </th>
-        <td mat-cell *matCellDef="let element"> {{element.eTime}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.endDate}} </td>
       </ng-container>
 
       <!-- 查看結果 -->
@@ -122,16 +122,16 @@
           @else {
           <div class="name-manger">
             @if (element.state === 0) {
-            <a [routerLink]="'/manger-input'" (click)="edit(element)">
+            <a (click)="edit(element)">
               編輯問卷
             </a>
             } @else if (element.state === 1) {
-            <a [routerLink]="'/feedback'">
+            <a (click)="feedback()">
               查看回饋
             </a>
             } @else if (element.state === 2) {
             <!-- 狀態 2 顯示兩個連結 -->
-            <a [routerLink]="'/feedback'">
+            <a (click)="feedback()">
               查看回饋
             </a>
             }

@@ -1,34 +1,34 @@
 <div class="confirm-container">
   <!-- 說明欄位-->
   <div class="questionnaire-info">
-    <h2>{{answerData.title}}</h2>
-    <p class="time-info">開放時間：{{answerData.sTime}} ~ {{answerData.eTime}}</p>
-    <p class="description">{{answerData.explain}}</p>
+    <h2>{{answerData.quiz.title}}</h2>
+    <p class="time-info">開放時間：{{answerData.quiz.startDate}} ~ {{answerData.quiz.endDate}}</p>
+    <p class="description">{{answerData.quiz.description}}</p>
   </div>
 
   <div class="personal-info">
     <h3>基本資料</h3>
-    <p>姓名：{{answerData.name}}</p>
-    <p>手機：{{answerData.phone}}</p>
-    <p>Email：{{answerData.email}}</p>
-    <p>年齡：{{answerData.age}}</p>
-    <p>性別：{{answerData.sex}}</p>
-    <p>居住縣市：{{answerData.city}}</p>
+    <p>姓名：{{answerData.user.name}}</p>
+    <p>手機：{{answerData.user.phone}}</p>
+    <p>Email：{{answerData.user.email}}</p>
+    <p>年齡：{{answerData.user.age}}</p>
+    <p>性別：{{answerData.user.sex}}</p>
+    <p>居住縣市：{{answerData.user.city}}</p>
   </div>
 
   <!-- 題目/答案欄位-->
-  @if(answerData.questArray){
+  @if(answerData.questionVoList.length > 0) {
   <div class="questions">
     <h3>問卷內容</h3>
-    @for(question of answerData.questArray ;track $index){
+    @for(question of answerData.questionVoList ;track $index){
     <div class="question-item">
-      <p class="question-title">{{question.questId}}. {{question.questName}}</p>
+      <p class="question-title">{{question.questionId}}. {{question.name}}</p>
 
       <!-- 單選 -->
       @if(question.type === 'Q') {
       <div class="options">
         @if(question.radioAnswer) {
-        @for(option of question.options ;track $index){
+        @for(option of question.optionsList ;track $index){
         @if(question.radioAnswer == option.code){
         <p>{{option.optionName}}</p>
         }
@@ -43,7 +43,7 @@
       @if(question.type === 'M') {
       <div class="options">
         @if(question.exist) {
-        @for(option of question.options ;track $index){
+        @for(option of question.optionsList ;track $index){
         @if(option.boxBollean == true){
         <p>{{option.optionName}}</p>
         }
