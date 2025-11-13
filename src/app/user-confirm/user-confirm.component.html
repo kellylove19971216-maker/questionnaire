@@ -22,7 +22,7 @@
     <h3>問卷內容</h3>
     @for(question of answerData.questionVoList ;track $index){
     <div class="question-item">
-      <p class="question-title">{{question.questionId}}. {{question.name}}</p>
+      <p class="question-title">{{question.displayId}}. {{question.name}}</p>
 
       <!-- 單選 -->
       @if(question.type === 'Q') {
@@ -44,7 +44,7 @@
       <div class="options">
         @if(question.exist) {
         @for(option of question.optionsList ;track $index){
-        @if(option.boxBollean == true){
+        @if(option.boxBoolean == true){
         <p>{{option.optionName}}</p>
         }
         }
@@ -75,7 +75,7 @@
     <button (click)="previewBack()" routerLink="/feedback">上一頁</button>
     }@else {
     <button (click)="goBack()" routerLink="/user-input">返回修改</button>
-    <button (click)="confirmOK()" routerLink="/user-list">確認送出</button>
+    <button (click)="submitQuestionnaire()">確認送出</button>
     }
   </div>
 </div>

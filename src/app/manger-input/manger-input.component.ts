@@ -140,11 +140,17 @@ export class MangerInputComponent {
         return false;
       }
 
-      // 非文字題必須有至少兩個選項
+      // 非文字題必須有至少兩個選項，最多五個選項
       if (need.type !== 'T') {
         if (!need.optionsList || need.optionsList.length < 2) {
           this.dialog.open(AlertComponent, {
             data: { message: '一個題目至少需要兩個選項!' }
+          });
+          return false;
+        }
+        if (need.optionsList.length > 5) {
+          this.dialog.open(AlertComponent, {
+            data: { message: '一個題目最多只能五個選項!' }
           });
           return false;
         }

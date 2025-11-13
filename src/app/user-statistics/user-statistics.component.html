@@ -1,13 +1,13 @@
 <div class="background">
   <!-- 說明欄 -->
   <div class="questionnaire-info">
-    <h2>{{chartArray.quiz.title}}</h2>
-    <p class="time-info">{{chartArray.quiz.startDate}} ~ {{chartArray.quiz.endDate}}</p>
-    <p class="description">{{chartArray.quiz.description}}</p>
+    <h2>{{statisticVo.quiz.title}}</h2>
+    <p class="time-info">{{statisticVo.quiz.startDate}} ~ {{statisticVo.quiz.endDate}}</p>
+    <p class="description">{{statisticVo.quiz.description}}</p>
   </div>
 <!-- 統計圖表 -->
   <div class="background1">
-    @for(chart of chartArray.questionVoList ;track $index){
+    @for(chart of statisticVo.questionVoList ;track $index){
     <!-- 多選/單選題-->
     @if (chart.type != 'T') {
     <div>

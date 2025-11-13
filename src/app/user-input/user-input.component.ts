@@ -5,9 +5,10 @@ import { InputDataService } from '../@services/input-data.service';
 import { MangerService } from './../@services/manger.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertComponent } from '../dialog/alert/alert.component';
-import { Question, Questionnaire, QuestionnaireWithUser } from '../@interface/questionnaire.interface';
+import { Questionnaire, QuestionnaireWithUser } from '../@interface/questionnaire.interface';
 import { HttpService } from '../@services/http.service';
 import { BasicMesComponent } from '../dialog/basic-mes/basic-mes.component';
+import { DialogService } from '../@services/dialog.service';
 
 @Component({
   selector: 'app-user-input',
@@ -24,106 +25,8 @@ export class UserInputComponent {
     private mangerService: MangerService,
     private dialog: MatDialog,
     private httpService: HttpService,
+    private dialogService: DialogService,
   ) { }
-
-  //使用 Quiz interface
-  quest: QuestionnaireWithUser = {
-    user: {
-      city: '',
-      name: '',
-      phone: '',
-      age: 1,
-      sex: '',
-      email: ''
-    },
-    quiz: {
-      id: 1,
-      title: 'JAVA前端課程意見回饋',
-      startDate: '2025-10-25',
-      endDate: '2025-12-31',
-      description: '本問卷旨在蒐集學員對 JAVA 前端課程的意見與建議,透過您的回饋,我們能更清楚了解課程內容、教材安排與授課方式的優缺點,以便未來持續改進與優化。提供更符合需求的學習體驗。您的每一份意見都非常重要,感謝您撥冗填寫!',
-    },
-    questionVoList: [
-      {
-        quizId: 1,
-        questionId: 1,
-        need: false,
-        exist: true,
-        name: '您對本次 JAVA 前端課程的整體滿意度為何?',
-        type: 'Q',
-        optionsList: [
-          { optionName: '非常不滿意', code: 1 },
-          { optionName: '不滿意', code: 2 },
-          { optionName: '普通', code: 3 },
-          { optionName: '滿意', code: 4 },
-          { optionName: '非常滿意', code: 5 },
-        ],
-      },
-      {
-        quizId: 1,
-        questionId: 2,
-        need: true,
-        exist: true,
-        name: '您覺得課程的難易度如何?',
-        type: 'Q',
-        optionsList: [
-          { optionName: '非常簡單', code: 1 },
-          { optionName: '簡單', code: 2 },
-          { optionName: '普通', code: 3 },
-          { optionName: '困難', code: 4 },
-          { optionName: '非常困難', code: 5 },
-        ],
-      },
-      {
-        quizId: 1,
-        questionId: 3,
-        need: false,
-        exist: true,
-        name: '您覺得本課程中最有幫助的部分是哪些?(可複選)',
-        type: 'M',
-        optionsList: [
-          { optionName: 'JAVA 語法基礎', code: 1 },
-          { optionName: 'JAVA與前端整合(例如 Servlet、JSP、Spring Boot 前端應用)', code: 2 },
-          { optionName: '講師的教學方式', code: 3 },
-          { optionName: '實作練習與專案', code: 4 },
-          { optionName: '前端基礎(HTML / CSS / JavaScript)', code: 5 },
-        ],
-      },
-      {
-        quizId: 1,
-        questionId: 4,
-        need: true,
-        exist: true,
-        name: '您希望未來課程可以加強哪些面向?(可複選)',
-        type: 'M',
-        optionsList: [
-          { optionName: '更多實作案例', code: 1 },
-          { optionName: '更深入的框架介紹(如 Vue、React、Angular 與 Java 的串接)', code: 2 },
-          { optionName: '就業實務技能(履歷、面試技巧)', code: 3 },
-          { optionName: '小組討論與互動', code: 4 },
-          { optionName: '線上教材或錄影複習', code: 5 },
-        ],
-      },
-      {
-        quizId: 1,
-        questionId: 5,
-        need: false,
-        exist: true,
-        name: '您覺得本課程最值得保留的優點是什麼?',
-        type: 'T',
-        optionsList: [],
-      },
-      {
-        quizId: 1,
-        questionId: 6,
-        need: true,
-        exist: true,
-        name: '您對講師的教學方式有什麼建議或回饋?',
-        type: 'T',
-        optionsList: [],
-      },
-    ]
-  };
 
   // 存放interface資料
   answerData: QuestionnaireWithUser = {
@@ -137,7 +40,7 @@ export class UserInputComponent {
       email: ''
     },
     quiz: {
-      id: 0,
+      id: 1,
       title: '',
       startDate: '',
       endDate: '',
@@ -149,87 +52,89 @@ export class UserInputComponent {
   isAdmin!: boolean; //管理者
 
   ngOnInit() {
-    //判斷是否為管理者
+    // 判斷是否為管理者
     this.mangerService._isAdmin$.subscribe((res) => {
       this.isAdmin = res;
     });
 
-    //判斷有沒有填過資料
-    if (!this.inputDataService.answerData) {
+    // 從 service 取問卷資料
+    const data = this.inputDataService.answerData;
 
-      //題目塞進去，整理格式
-      this.answerData = {
-        ...this.quest,
-        questionVoList: this.tidyQuestArray()
-      };
-    } else {
-      //如果service有東西(管理者輸入題目或使用者點上一頁修改答案)
-      this.answerData = this.inputDataService.answerData;
+    if (!data) {
+      // 使用共用 DialogService 開啟錯誤訊息並導頁
+      this.dialogService.openDialogAndGoList('錯誤', '目前沒有問卷資料，請從問卷列表進入！');
+      return;
     }
-  }
 
-
-  // 【修改】整理假資料的資料格式,轉換為 QuestionAnswer 格式
-  tidyQuestArray(): Question[] {
-    return this.quest.questionVoList.map(array => ({
-      ...array,
-      textAnswer: '',
-      radioAnswer: 0,
-      options: array.optionsList.map(option => ({
-        ...option,
-        boxBollean: false
+    // ✅ 有資料時直接初始化
+    console.log('載入問卷資料：', data);
+    this.answerData = {
+      user: data.user ?? { city: '', name: '', phone: '', age: 1, sex: '', email: '' },
+      quiz: data.quiz,
+      questionVoList: data.questionVoList.map((q: any) => ({
+        ...q,
+        radioAnswer: Number(q.radioAnswer) || 0,
+        textAnswer: q.textAnswer ?? ''
       }))
-    }));
-  }
-
-  //確認使用者有沒有填寫
-  checkNeed(): boolean {
-    if (!this.answerData.user.name || !this.answerData.user.email || !this.answerData.user.phone) {
-      this.dialog.open(AlertComponent, {
-        data: { message: '個人資料未填寫完整!' }
-      });
-      return false;
     };
-    for (let needs of this.answerData.questionVoList) {
-      if (needs.need) {
 
-        //單選
-        if (needs.type == "Q" && !needs.radioAnswer) {
-          this.dialog.open(AlertComponent, {
-            data: { message: '單選題有漏填項目!' }
-          });
-          return false;
-        }
+// 依照題型排序後重新加上 displayId
+  const sorted = [
+    ...this.answerData.questionVoList.filter(q => q.type === 'Q'),
+    ...this.answerData.questionVoList.filter(q => q.type === 'M'),
+    ...this.answerData.questionVoList.filter(q => q.type === 'T')
+  ];
 
-        //多選
-        else if (needs.type == "M") {
-          let check = false;
-          for (let booleans of needs.optionsList) {
-            if (booleans.boxBollean) {
-              check = true;
-            }
-          }
-          if (!check) {
-            this.dialog.open(AlertComponent, {
-              data: { message: '多選題有漏填項目!' }
-            });
-            return false;
-          }
-        }
+  sorted.forEach((q, index) => {
+    q.displayId = index + 1;
+  });
 
-        //文字題
-        else if (needs.type == "T" && !needs.textAnswer) {
-          this.dialog.open(AlertComponent, {
-            data: { message: '開放題有漏填項目!' }
-          });
-          return false;
-        }
-      };
+  // 再指定回去
+  this.answerData.questionVoList = sorted;
+}
+
+
+  //檢查必填
+  checkNeed(): boolean {
+    const { user, questionVoList } = this.answerData;
+
+    // ✅ 個人資料檢查
+    if (!user.name || !user.email || !user.phone) {
+      this.dialogService.alert('個人資料未填寫完整!');
+      return false;
     }
+
+    if (user.age < 1) {
+      this.dialogService.alert('年齡不可小於1!');
+      return false;
+    }
+
+    // ✅ 題目檢查
+    for (let q of questionVoList) {
+      if (!q.need) continue;
+
+      if (q.type === 'Q' && !q.radioAnswer) {
+        this.dialogService.alert('單選題有漏填項目!');
+        return false;
+      }
+
+      if (q.type === 'M' && !(q.optionsList?.some(opt => opt.boxBoolean))) {
+        this.dialogService.alert('多選題有漏填項目!');
+        return false;
+      }
+
+      if (q.type === 'T' && !q.textAnswer) {
+        this.dialogService.alert('開放題有漏填項目!');
+        return false;
+      }
+    }
+
     return true;
   }
 
-  //使用者的下一頁
+  //-----------------------使用者區域------------------------
+
+  //預覽畫面
   nextStep() {
     if (this.checkNeed()) {
       this.inputDataService.answerData = this.answerData;
@@ -238,55 +143,42 @@ export class UserInputComponent {
     }
   }
 
-  //管理者區域
+  //-----------------------管理者區域------------------------
 
   //公開
   publish() {
     // 在送出 API 前，把 user 拿掉
-    const questionnaireToSave: Questionnaire = {
-      quiz: this.answerData.quiz,
-      questionVoList: this.answerData.questionVoList
-    };
+    const { quiz, questionVoList } = this.answerData;
+    const questionnaireToSave: Questionnaire = { quiz, questionVoList };
 
-    // ✅ 判斷是否為更新
-    const isUpdate = this.answerData.quiz.id > 0; // id >0 就是更新
-    // ✅ 選擇 API 路徑
-    const apiUrl = isUpdate ? 'quiz/update' : 'quiz/create';
+    // 判斷更新或新增
+    const apiUrl = quiz.id > 0 ? 'quiz/update' : 'quiz/create';
 
-    //串聯後端API
-    this.httpService.postApi(apiUrl, questionnaireToSave)
-      .subscribe({
-        next: (res: any) => {
-          console.log(res);
-          //送出後清空資料
+    this.httpService.postApi(apiUrl, questionnaireToSave).subscribe({
+      next: (res: any) => {
+        if (res.code === 200) {
+          console.log('問卷儲存成功',res);
           this.inputDataService.answerData = null;
-          const dialogRef = this.dialog.open(BasicMesComponent, {
-            data: {
-              title: '問卷已儲存',
-              message: '於問卷開始前都可以進行修改！'
-            }
-          });
-          // 等使用者關閉 Dialog 後再導頁
-          dialogRef.afterClosed().subscribe(() => {
-            this.router.navigate(['/user-list']);
-          });
-        },
-        error: (err: any) => {
-          console.error('API呼叫錯誤：', err);
-          this.dialog.open(BasicMesComponent, {
-            data: {
-              title: '錯誤訊息' + err.status,
-              message: '伺服器錯誤!'
-            }
-          });
+          this.dialogService.openDialogAndGoList(
+            '問卷已儲存',
+            '於問卷開始前都可以進行修改！'
+          );
         }
-      });
+      },
+      error: (err: any) => {
+        console.error('API呼叫錯誤：', err);
+        this.dialogService.openDialog(
+          `錯誤訊息 ${err.status}`,
+          '伺服器錯誤!'
+        );
+      }
+    });
   }
+
 
   //返回管理者input
   goBack() {
     this.inputDataService.answerData = this.answerData;
-    console.log(this.inputDataService.answerData);
     this.router.navigate(['/manger-input']);
   }
 

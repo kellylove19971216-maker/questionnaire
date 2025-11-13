@@ -118,7 +118,7 @@ export class UserListComponent {
         this.displayedColumns = this.displayedColumns.filter(col => col !== 'select');
       }
     });
-        // 取得後端資料
+    // 取得後端資料
     this.loadQuizList();
   }
 
@@ -128,7 +128,7 @@ export class UserListComponent {
     this.dataSource.paginator = this.paginator;
   }
 
-   // ================= 從後端取得問卷列表 =================
+  // ================= 從後端取得問卷列表 =================
   loadQuizList() {
     this.httpService.getApi('quiz/list', {}) // POST 請求
       .subscribe({
@@ -140,6 +140,8 @@ export class UserListComponent {
               result: computeResultLabel(q.startDate, q.endDate, this.isAdmin)
             }));
             this.dataSource.data = this.data;
+            console.log(this.dataSource.data);
+
           } else {
             this.dataSource.data = [];
           }
@@ -189,6 +191,21 @@ export class UserListComponent {
     this.isAsc = !this.isAsc;
   }
 
+  //排序-按照開始時間
+  sortBystart(){
+    this.dataSource.data = this.dataSource.data.sort((a, b) => {
+      const dateA = new Date(a.startDate).getTime();
+      const dateB = new Date(b.startDate).getTime();
+      if (this.isAsc) {
+        return dateA - dateB; // 升冪
+      } else {
+        return dateB - dateA; // 降冪
+      }
+    });
+    // 每次呼叫後翻轉排序狀態
+    this.isAsc = !this.isAsc;
+  }
+
   //重新整理畫面
   reset() {
     location.reload();
@@ -198,6 +215,57 @@ export class UserListComponent {
   changeInput(event: Event) {
     const term = this.searchData.toLowerCase();
     this.dataSource.data = this.data.filter(d => d.title.toLowerCase().includes(term));
+  }
+
+  //使用時間篩選問卷
+  search() {
+    this.dataSource.data = this.data.filter(data => {
+      const startDate = new Date(data.startDate);
+      const endDate = new Date(data.endDate);
+      const chooseStartDate = this.chooseDateS ? new Date(this.chooseDateS) : null;
+      const chooseEndDate = this.chooseDateE ? new Date(this.chooseDateE) : null;
+      return (
+        (!chooseStartDate || startDate >= chooseStartDate) &&
+        (!chooseEndDate || endDate <= chooseEndDate)
+      );
+    });
+  }
+
+  //使用者點選問卷
+  input(element: QuizList) {
+// quiz/question_list 取得題目與選項
+    this.httpService.getOptionApi('quiz/question_list', { quizId: element.id })
+      .subscribe({
+        next: (res: any) => {
+          if (res.code === 200 && res.questionVoList) {
+            // 組合完整 answerData
+            this.inputDataService.answerData = {
+              user: {
+                phone: '',
+                name: '',
+                email: '',
+                age: 1,
+                city: '',
+                sex: ''
+              },
+              quiz: {
+                id: element.id,
+                title: element.title,
+                startDate: element.startDate,
+                endDate: element.endDate,
+                description: element.description
+              },
+              questionVoList: res.questionVoList
+            };
+            this.router.navigate(['/user-input']);
+          } else {
+            console.error('取得問卷題目失敗', res);
+          }
+        },
+        error: (err: any) => {
+          console.error('API呼叫錯誤：', err);
+        }
+      });
   }
 
   // ================= 管理者專區 =================
@@ -236,48 +304,80 @@ export class UserListComponent {
     this.selectData.emit(checkData);
   }
 
-// 管理者編輯問卷
-edit(element: QuizList) {
-  // quiz/question_list 取得題目與選項
-  this.httpService.getOptionApi('quiz/question_list', { quizId: element.id.toString() })
-    .subscribe({
-      next: (res: any) => {
-        if (res.code === 200 && res.questionVoList) {
-          // 組合完整 answerData
-          this.inputDataService.answerData = {
-            quiz: {
-              id: element.id,
-              title: element.title,
-              startDate: element.startDate,
-              endDate: element.endDate,
-              description: element.description
-            },
-            questionVoList: res.questionVoList
-          };
-          this.router.navigate(['/manger-input']);
-        } else {
-          console.error('取得問卷題目失敗', res);
+  // 管理者編輯問卷
+  edit(element: QuizList) {
+    // quiz/list 取得題目與選項
+    this.httpService.getOptionApi('quiz/question_list', { quizId: element.id })
+      .subscribe({
+        next: (res: any) => {
+          if (res.code === 200 && res.questionVoList) {
+            // 組合完整 answerData
+            this.inputDataService.answerData = {
+              quiz: {
+                id: element.id,
+                title: element.title,
+                startDate: element.startDate,
+                endDate: element.endDate,
+                description: element.description
+              },
+              questionVoList: res.questionVoList
+            };
+            this.router.navigate(['/manger-input']);
+          } else {
+            console.error('取得問卷題目失敗', res);
+          }
+        },
+        error: (err: any) => {
+          console.error('API呼叫錯誤：', err);
         }
-      },
-      error: (err: any) => {
-        console.error('API呼叫錯誤：', err);
-      }
-    });
-}
+      });
+  }
 
 
 
   //刪除全家
   del() {
-    // 用 selection.selected 取勾選的資料
-    const selectedIds = this.selection.selected.map(s => s.id);
-    // 過濾掉勾選的資料，並更新 dataSource
-    this.dataSource.data = this.dataSource.data.filter(item => !selectedIds.includes(item.id));
-    // 清空勾選
-    this.selection.clear();
+    // 取得勾選的資料 ID
+   const selectedIds = this.selection.selected.map(s => s.id);
+
+  if (selectedIds.length === 0) {
+    console.warn('請先選擇要刪除的項目');
+    return;
   }
 
-  feedback(){
-    this.router.navigate(['/feedback']);
-  }
+  // 先呼叫後端 API 刪除
+  this.httpService.postApi('quiz/delete', { quizIdList: selectedIds })
+    .subscribe({
+      next: (res: any) => {
+        if (res.code === 200) {
+          // API 成功後才更新前端 dataSource
+          this.dataSource.data = this.dataSource.data.filter(
+            item => !selectedIds.includes(item.id)
+          );
+          // 清空勾選
+          this.selection.clear();
+          console.log('刪除成功');
+        } else {
+          console.error('刪除失敗', res);
+        }
+      },
+      error: (err: any) => {
+        console.error('API 呼叫錯誤：', err);
+        // 錯誤時不更新前端資料
+      }
+    });
+}
+
+// 統計
+statistic(quizId: number) {   // quiz 是完整物件
+  this.router.navigate(['/user-statistics'], { queryParams: { quizId } });
+  console.log(quizId);
+
+}
+
+
+  //反饋
+feedback(quizId: number) {
+  this.router.navigate(['/feedback'], { queryParams: { quizId } });
+}
 }

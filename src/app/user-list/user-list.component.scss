@@ -16,6 +16,7 @@
   padding: 20px 3%;
   background-color: #f0ead6;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  margin-bottom: 20px;
 }
 
 /* 第一行 */
@@ -102,6 +103,7 @@ table {
 
 .mat-column-title {
   width: 300px;
+  max-width: 300px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -229,8 +231,9 @@ a {
   display: flex;
   flex-direction: column;
   position: fixed;
-  top: 32%;
-  left: 8%;
+  top: 50%;
+  left: 5%;
+  transform: translateY(-50%);  /* 垂直居中 */
   gap: 16px;
   cursor: pointer;
 }

@@ -11,12 +11,12 @@
         </tr>
       </thead>
       <tbody>
-        @for (quset of questArray; track $index) {
+        @for (item of feedbackList; track $index) {
         <tr>
-          <td>{{quset.name}}</td>
-          <td>{{quset.email}}</td>
-          <td>{{quset.fillinDate}}</td>
-          <td class="urlCss" (click)="goPreview()">前往</td>
+          <td>{{item.name}}</td>
+          <td>{{item.email}}</td>
+          <td>{{item.fillinDate}}</td>
+          <td class="urlCss" (click)="viewFeedback(item)">前往</td>
         </tr>
         }
       </tbody>
@@ -24,6 +24,6 @@
   </div>
   <div class="btn-back">
   <button (click)="goBack()">回上頁</button>
-  <button (click)="goStatistics()">看結果</button>
+  <button (click)="goStatistics(currentQuizId)">看結果</button>
   </div>
 </div>

@@ -20,21 +20,22 @@ export class HttpService {
     return this.httpClient.get(this.baseUrl  +  '/'  + url, getData);
   }
 
-  // 取得選樣列表
+  // 取得選項列表
   getOptionApi(url: string, getData: any): any {
   const params = new HttpParams({ fromObject: getData }); // 將物件轉成 query string
   return this.httpClient.get(this.baseUrl + '/' + url, { params });
 }
 
-    // 更新問卷
-  updateQuiz(url: string, postData: any): any{
-    return this.httpClient.put(this.baseUrl  +  '/'  + url, postData);
+//取得回饋列表
+getFeedbackApi(url: string, getData: any): any {
+  const params = new HttpParams({ fromObject: getData }); // 將物件轉成 query string
+  return this.httpClient.get(this.baseUrl + '/' + url, { params });
   }
 
-  // 刪除問卷
-  deleteQuiz(url: string, postData: any): any {
-    return this.httpClient.delete(this.baseUrl  +  '/'  + url, postData);
-  }
-
+  //取得統計資料
+  getStatisticsApi(url: string, getData: any): any {
+    const params = new HttpParams({ fromObject: getData }); // 將物件轉成 query string
+    return this.httpClient.get(this.baseUrl + '/' + url, { params });
+    }
 
 }

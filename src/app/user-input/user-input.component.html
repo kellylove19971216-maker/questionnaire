@@ -87,14 +87,14 @@
       <!-- 單選題區塊 -->
           @if(questData.type == 'Q'){
           <p>
-            {{questData.questionId}}.{{questData.name}}
+            {{questData.displayId}}.{{questData.name}}
             @if (questData.need) {
             <span style="color: red;">*</span>
             }
           </p>
           @for(option of questData.optionsList;track $index){
           <!-- ngmodel會抓value的值 -->
-          <label><input [(ngModel)]="questData.radioAnswer" type="radio" value="{{option.code}}"
+          <label><input [(ngModel)]="questData.radioAnswer" type="radio" [value]="option.code"
               name="{{questData.questionId}}"> {{option.optionName}}</label>
           }
           }
@@ -110,14 +110,14 @@
           @for(questData of answerData.questionVoList; track $index){
           @if(questData.type == 'M'){
           <div class="radio-group">
-            <p>{{questData.questionId}}. {{questData.name}}
+            <p>{{questData.displayId}}. {{questData.name}}
               @if (questData.need) {
               <span style="color: red;">*</span>
               }
             </p>
             @for(option of questData.optionsList; track $index){
             <label>
-              <input [(ngModel)]="option.boxBollean" type="checkbox" value="{{option.code}}"
+              <input [(ngModel)]="option.boxBoolean" type="checkbox" value="{{option.code}}"
                 name="{{questData.questionId}}">
               {{option.optionName}}
             </label>
@@ -135,7 +135,7 @@
         <div class="question">
           @for(questData of answerData.questionVoList; track $index){
           @if(questData.type == 'T'){
-          <p>{{questData.questionId}}. {{questData.name}}
+          <p>{{questData.displayId}}. {{questData.name}}
             @if (questData.need) {
             <span style="color: red;">*</span>
             }

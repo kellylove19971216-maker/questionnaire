@@ -1,9 +1,14 @@
 import { MangerService } from './../@services/manger.service';
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { InputDataService } from '../@services/input-data.service';
-import { QuestionnaireWithUser } from '../@interface/questionnaire.interface';
+import { Answer, FillinRequest, QuestionnaireWithUser } from '../@interface/questionnaire.interface';
+import { HttpService } from '../@services/http.service';
+import { MatDialog } from '@angular/material/dialog';
+import { BasicMesComponent } from '../dialog/basic-mes/basic-mes.component';
+import { DialogService } from '../@services/dialog.service';
+
 
 @Component({
   selector: 'app-user-confirm',
@@ -13,10 +18,17 @@ import { QuestionnaireWithUser } from '../@interface/questionnaire.interface';
 })
 export class UserConfirmComponent {
   answerData !: QuestionnaireWithUser; // 存放使用者選擇的答案
-  isAdmin !:boolean; //管理者狀態
+  isAdmin !: boolean; //管理者狀態
 
-  constructor(private inputDataService: InputDataService, private mangerService:MangerService) {
-   }
+  constructor(
+    private router: Router,
+    private inputDataService: InputDataService,
+    private mangerService: MangerService,
+    private httpService: HttpService,
+    private dialog: MatDialog,
+    private dialogService: DialogService
+  ) {
+  }
 
   ngOnInit(): void {
 
@@ -25,52 +37,94 @@ export class UserConfirmComponent {
 
     //判斷是否為管理者查看狀態
     this.mangerService._isAdmin$.subscribe((res) => {
-    this.isAdmin=res;});
+      this.isAdmin = res;
+    });
+
+// 依照題型排序後重新加上 displayId
+  const sorted = [
+    ...this.answerData.questionVoList.filter(q => q.type === 'Q'),
+    ...this.answerData.questionVoList.filter(q => q.type === 'M'),
+    ...this.answerData.questionVoList.filter(q => q.type === 'T')
+  ];
+
+  sorted.forEach((q, index) => {
+    q.displayId = index + 1;
+  });
+
+  // 再指定回去
+  this.answerData.questionVoList = sorted;
+
   }
+
   //上一頁
   goBack() {
     this.inputDataService.answerData = this.answerData;
   }
 
-  //管理者回饋上一頁
-  previewBack(){
-    this.inputDataService.answerData=null;
+  //管理者查看回饋的上一頁
+  previewBack() {
+    this.inputDataService.answerData = this.answerData;
   }
 
-  //確認送出
-  confirmOK() {
-    this.inputDataService.answerData = null;
+  // 轉換函式：將前端格式轉換成後端 FillinRequest 格式
+  ToFillinReq(answerData: any): FillinRequest {
+    const answerList: Answer[] = [];
+
+    for (let i = 0; i < answerData.questionVoList.length; i++) {
+      const q = answerData.questionVoList[i];
+
+      const options: any[] = [];
+      if (q.optionsList && Array.isArray(q.optionsList)) {
+        for (let j = 0; j < q.optionsList.length; j++) {
+          const opt = q.optionsList[j];
+          options.push({
+            code: opt.code,
+            optionName: opt.optionName,
+            boxBoolean: !!opt.boxBoolean, // 確保是 true / false
+          });
+        }
+      }
+
+      const answer: Answer = {
+        questionId: q.questionId,
+        radioAnswer: q.type === 'Q' ? Number(q.radioAnswer) : 0,
+        textAnswer: q.textAnswer ?? '',
+        optionsList: options,
+      };
+
+      answerList.push(answer);
+    }
+
+    return {
+      user: answerData.user,
+      quizId: answerData.quiz.id,
+      answerList,
+    };
   }
 
-  // ========== 提交問卷時的處理 ==========
-// 使用方式範例：
-/*
-import { prepareFillinData } from './questionnaire.interface';
 
-submitQuestionnaire() {
-  // 1. 準備提交資料
-  const fillinList = prepareFillinData(this.inputDataService.answerData);
+  //送出問卷
+  submitQuestionnaire() {
+    const fillinRequest = this.ToFillinReq(this.answerData);
+    console.log('轉換後的資料:', fillinRequest);
 
-  // fillinList 結果會是：
-  // [
-  //   { quizId: 1, questionId: 1, email: "kelly19990730@gmail.com", answerStr: "4", fillinDate: "2025-11-01" },
-  //   { quizId: 1, questionId: 2, email: "kelly19990730@gmail.com", answerStr: "5", fillinDate: "2025-11-01" },
-  //   { quizId: 1, questionId: 3, email: "kelly19990730@gmail.com", answerStr: "2,4", fillinDate: "2025-11-01" },
-  //   { quizId: 1, questionId: 4, email: "kelly19990730@gmail.com", answerStr: "2,3,5", fillinDate: "2025-11-01" },
-  //   { quizId: 1, questionId: 5, email: "kelly19990730@gmail.com", answerStr: "整體配色溫和，使用起來很舒服。", fillinDate: "2025-11-01" },
-  //   { quizId: 1, questionId: 6, email: "kelly19990730@gmail.com", answerStr: "希望在操作流程上能再更簡化...", fillinDate: "2025-11-01" }
-  // ]
+    this.httpService.postApi('quiz/fillin', fillinRequest).subscribe({
+      next: (res: any) => {
+        console.log('✅ API 回應:', res);
+        const success = res?.code === 200 || res === 200;
 
-  // 2. 呼叫後端 API
-  this.httpService.postApi('fillin/submit', { fillinList })
-    .subscribe({
-      next: (res) => {
-        console.log('提交成功', res);
+        if (success) {
+          this.inputDataService.answerData = null;
+          this.dialogService.openDialogAndGoList('問卷已提交', '感謝填寫！');
+        } else {
+          console.warn('⚠️ 非預期的回應:', res);
+          this.dialogService.openDialogAndGoList('提交異常', '回應格式異常');
+        }
       },
-      error: (err) => {
-        console.error('提交失敗', err);
+      error: (err: any) => {
+        console.error('❌ API 錯誤:', err);
+        this.dialogService.openDialogAndGoList('提交失敗', '請確認輸入資料無誤後再試一次');
       }
     });
-}
-*/
+  }
 }
